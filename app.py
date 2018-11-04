@@ -52,6 +52,11 @@ def _event_handler(event_type, slack_event):
             return make_response("Welcome message updates with shared message",
                                  200,)
 
+    elif event_type == "message":
+        txt = slack_event["event"]["text"]
+        print(f"got a message [{txt}]")
+        return make_response("Yeah... didn't do a lot with that", 200,)
+
     # ============= Reaction Added Events ============= #
     # If the user has added an emoji reaction to the onboarding message
     elif event_type == "reaction_added":
@@ -144,4 +149,4 @@ def hears():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8765)
