@@ -42,8 +42,8 @@ Not yet added
 
 ## Versioning
 
-I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/davelush/easy-peasy-bot/tags).
+I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/davelush/slack-bot-sandbox/tags).
 
 ## Authors
 
-Here is a list of [contributors](https://github.com/davelush/easy-peasy-bot/graphs/contributors) who participated in this project.
+Here is a list of [contributors](https://github.com/davelush/slack-bot-sandbox/graphs/contributors) who participated in this project.
