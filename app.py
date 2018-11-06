@@ -32,6 +32,7 @@ def _event_handler(event_type, slack_event):
 
     """
     team_id = slack_event["team_id"]
+    app.logger.info(f"{event_type} and body [{slack_event}]")
     # ================ Team Join Events =============== #
     # When the user first joins a team, the type of event will be team_join
     if event_type == "team_join":
@@ -52,9 +53,9 @@ def _event_handler(event_type, slack_event):
             return make_response("Welcome message updates with shared message",
                                  200,)
 
-    elif event_type == "message":
+    elif event_type == "message.app_home":
         txt = slack_event["event"]["text"]
-        print(f"got a message [{txt}]")
+        app.logger.info(f"got a message [{txt}]")
         return make_response("Yeah... didn't do a lot with that", 200,)
 
     # ============= Reaction Added Events ============= #
