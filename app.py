@@ -53,11 +53,6 @@ def _event_handler(event_type, slack_event):
             return make_response("Welcome message updates with shared message",
                                  200,)
 
-    elif event_type == "message.app_home":
-        txt = slack_event["event"]["text"]
-        app.logger.info(f"got a message [{txt}]")
-        return make_response("Yeah... didn't do a lot with that", 200,)
-
     # ============= Reaction Added Events ============= #
     # If the user has added an emoji reaction to the onboarding message
     elif event_type == "reaction_added":
@@ -73,6 +68,16 @@ def _event_handler(event_type, slack_event):
         # Update the onboarding message
         pyBot.update_pin(team_id, user_id)
         return make_response("Welcome message updates with pin", 200,)
+
+
+    elif event_type == "app_mention":
+        return make_response("Not yet implemented", 200,)
+
+    elif event_type == "reaction_removed":
+        return make_response("Not yet implemented", 200,)
+
+    elif event_type == "emoji_changed":
+        return make_response("Not yet implemented", 200,)
 
     # ============= Event Type Not Found! ============= #
     # If the event_type does not have a handler
