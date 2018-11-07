@@ -21,7 +21,7 @@ def _event_handler(event_type, slack_event):
     Parameters
     ----------
     event_type : str
-        type of event recieved from Slack
+        type of event received from Slack
     slack_event : dict
         JSON response from a Slack reaction event
 
@@ -71,7 +71,11 @@ def _event_handler(event_type, slack_event):
 
 
     elif event_type == "app_mention":
-        return make_response("Not yet implemented", 200,)
+        user_id = slack_event["event"].get("user")
+        channel_id = slack_event["event"].get("channel")
+        # pyBot.auth("chat.postMessage")
+        pyBot.send_canned_message(app.logger, team_id, user_id, channel_id)
+        return make_response("Sent a simple DM back to the person who mentioned me", 200,)
 
     elif event_type == "reaction_removed":
         return make_response("Not yet implemented", 200,)

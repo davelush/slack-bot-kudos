@@ -9,13 +9,13 @@ from slackclient import SlackClient
 
 # To remember which teams have authorized your app and what tokens are
 # associated with each team, we can store this information in memory on
-# as a global object. When your bot is out of development, it's best to
-# save this in a more persistant memory store.
+# as a global object.
+#FIXME When your bot is out of development, it's best to save this in a more persistent memory store.
 authed_teams = {}
 
 
 class Bot(object):
-    """ Instanciates a Bot object to handle Slack onboarding interactions."""
+    """ Instantiates a Bot object to handle Slack onboarding interactions."""
     def __init__(self):
         super(Bot, self).__init__()
         self.name = "gonzo"
@@ -34,7 +34,8 @@ class Bot(object):
         # an oauth token. We can connect to the client without authenticating
         # by passing an empty string as a token and then reinstantiating the
         # client with a valid OAuth token once we have one.
-        self.client = SlackClient("")
+        #TODO is this the best way to pass a verification token to the slack client?
+        self.client = SlackClient(self.verification)
         # We'll use this dictionary to store the state of each message object.
         # In a production envrionment you'll likely want to store this more
         # persistantly in  a database.
@@ -247,3 +248,10 @@ class Bot(object):
                                             )
         # Update the timestamp saved on the message object
         message_obj.timestamp = post_message["ts"]
+
+    def send_canned_message(self, logger, team_id, user_id, channel_id):
+        post_message = self.client.api_call("chat.postMessage",
+                                            channel=channel_id,
+                                            text="thank you for mentioning me"
+                                            )
+        logger.info(post_message)
