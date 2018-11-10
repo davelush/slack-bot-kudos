@@ -29,7 +29,10 @@ A Slack app configured in your workspace
 
 ## Running the tests
 
-Not yet added
+Not a lot of coverage. From the root directory run
+```
+pytest
+```
 
 ## Deployment
 
