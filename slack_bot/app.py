@@ -74,7 +74,7 @@ def _event_handler(event_type, slack_event):
         user_id = slack_event["event"].get("user")
         channel_id = slack_event["event"].get("channel")
         # pyBot.auth("chat.postMessage")
-        pyBot.send_canned_message(app.logger, team_id, user_id, channel_id)
+        pyBot.send_quote_message(app.logger, team_id, user_id, channel_id)
         return make_response("Sent a simple DM back to the person who mentioned me", 200,)
 
     elif event_type == "reaction_removed":

@@ -11,6 +11,8 @@ from slackclient import SlackClient
 # associated with each team, we can store this information in memory on
 # as a global object.
 #FIXME When your bot is out of development, it's best to save this in a more persistent memory store.
+from slack_bot.quotegenerator import QuoteGenerator
+
 authed_teams = {}
 
 
@@ -250,9 +252,10 @@ class Bot(object):
         # Update the timestamp saved on the message object
         message_obj.timestamp = post_message["ts"]
 
-    def send_canned_message(self, logger, team_id, user_id, channel_id):
+    def send_quote_message(self, logger, channel_id):
+        quote_gen = QuoteGenerator()
         post_message = self.client.api_call("chat.postMessage",
                                             channel=channel_id,
-                                            text="thank you for mentioning me"
+                                            text=quote_gen.random()
                                             )
         logger.info(post_message)
