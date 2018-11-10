@@ -3,8 +3,9 @@
 This is my sandbox for playing around with creating a Slack bot. As a starting point I've used the [Slack Python Onboarding Tutorial](https://github.com/slackapi/Slack-Python-Onboarding-Tutorial/blob/master/README.md#pythonboarding-bot) which gives a good set of initial constructs along with guidance on setup. Plans from here are;
 
 - [x] Get to grips with the incoming events and how to generate outbound messages
-- [ ] Set up a few fun interactions for the bot
-- [ ] Add some test coverage via [pytest](https://docs.pytest.org/en/latest/)
+- [x] Set up a few fun interactions for the bot
+- [x] Add some test coverage via [pytest](https://docs.pytest.org/en/latest/)
+- [ ] Watch for positive emojis in relation to people
 - [ ] Create a Dockerfile so that it can be deployed in a K8s cluster
 
 ## Getting Started
