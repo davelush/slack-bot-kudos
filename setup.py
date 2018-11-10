@@ -8,7 +8,7 @@ setup(
     version="0.0.1-snapshot",
     license='Apache License 2.0',
     packages=find_packages(),
-    package_dir={'slack_bot': 'slack_bot'},
+    package_dir={'slack_bot': 'slack_bot', 'kudos': 'kudos'},
     long_description=open('README.md').read(),
     test_suite='tests',
     setup_requires=['pytest-runner'],
