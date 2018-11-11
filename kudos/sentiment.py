@@ -9,14 +9,16 @@ class Sentiment(object):
     def __init__(self):
         i = 0
 
-    def is_positive(self, emoji):
+    def is_positive_emoji(self, emoji):
         if emoji in self.positive_emojis:
             return True
         else:
             return False
 
     def contains_emoji(self, text):
-        return re.match(":\*:", text)
+        p = re.compile("[:].*[:]")
+        return re.findall(p, text)
 
     def contains_user(self, text):
-        return re.match("", text)
+        p = re.compile("[<@].*[>]")
+        return re.findall(p, text)
