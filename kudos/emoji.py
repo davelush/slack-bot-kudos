@@ -1,9 +1,9 @@
 
 class Emoji(object):
-    positive_emojis = ["star",
-                       "star2",
-                       "stars",
-                       "cookie"]
+    positive_emojis = [":star:",
+                       ":star2:",
+                       ":stars:",
+                       ":cookie:"]
 
     def __init__(self):
         i = 0
