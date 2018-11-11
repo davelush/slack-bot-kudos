@@ -6,6 +6,7 @@ A routing layer for the onboarding bot tutorial built using
 import json
 from flask import Flask, request, make_response, render_template
 from slack_bot import bot
+from kudos.sentiment import Sentiment
 
 pyBot = bot.Bot()
 slack = pyBot.client
@@ -43,8 +44,12 @@ def _event_handler(event_type, slack_event):
     #     pyBot.update_emoji(team_id, user_id)
     #     return make_response("Welcome message updates with reactji", 200,)
 
-
-    if event_type == "app_mention":
+    if event_type == "message":
+        text = slack_event["event"].get("text")
+        sentiment =  Sentiment()
+        if sentiment.contains_emoji(text) and sentiment.contains_user(text):
+            print(f"found an emoji and a user in : {text}")
+    elif event_type == "app_mention":
         user_id = slack_event["event"].get("user")
         channel_id = slack_event["event"].get("channel")
         # pyBot.auth("chat.postMessage")
