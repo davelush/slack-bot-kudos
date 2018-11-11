@@ -23,7 +23,7 @@ A Slack app configured in your workspace
 
 1. Run ngrok
     - `ngrok http 8765`
-2. Update the Request URL in the Event Subscriptions section of your Slack app configuration 
+2. Update the Request URL in the Event Subscriptions section of your [Slack App](https://api.slack.com/apps) configuration 
     - `http://abcdef01.ngrok.io/listening` — Don't forget to add listening to the end of the url
     - `docker run --rm -it -p 8080:8080 $IMAGE_ID_FROM_ABOVE`
 3. Run your application on 8765 locally
