@@ -1,5 +1,6 @@
+import re
 
-class Emoji(object):
+class Sentiment(object):
     positive_emojis = [":star:",
                        ":star2:",
                        ":stars:",
@@ -13,3 +14,9 @@ class Emoji(object):
             return True
         else:
             return False
+
+    def contains_emoji(self, text):
+        return re.match(":\*:", text)
+
+    def contains_user(self, text):
+        return re.match("", text)
