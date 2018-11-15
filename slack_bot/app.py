@@ -35,7 +35,6 @@ def _event_handler(event_type, slack_event):
     team_id = slack_event["team_id"]
     app.logger.info(f"{event_type} and body [{slack_event}]")
 
-    #TODO this could be useful when a person adds a positive reaction to somebody else's kudos
     # # ============= Reaction Added Events ============= #
     # # If the user has added an emoji reaction to the onboarding message
     # elif event_type == "reaction_added":
@@ -49,6 +48,8 @@ def _event_handler(event_type, slack_event):
         sentiment =  Sentiment()
         if sentiment.contains_emoji(text) and sentiment.contains_user(text):
             print(f"found an emoji and a user in : {text}")
+            #TODO probably want an emoji matcher and a findall to separate check from get
+            #TODO same thing on users
     elif event_type == "app_mention":
         user_id = slack_event["event"].get("user")
         channel_id = slack_event["event"].get("channel")
