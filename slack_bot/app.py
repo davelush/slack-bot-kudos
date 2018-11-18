@@ -8,10 +8,9 @@ from flask import Flask, request, make_response, render_template
 from slack_bot import bot
 from kudos.sentiment import Sentiment
 
-pyBot = bot.Bot()
-slack = pyBot.client
-
 app = Flask(__name__)
+pyBot = bot.Bot(app.logger)
+slack = pyBot.client
 
 
 def _event_handler(event_type, slack_event):
@@ -45,16 +44,22 @@ def _event_handler(event_type, slack_event):
 
     if event_type == "message":
         text = slack_event["event"].get("text")
+        channel_id = slack_event["event"].get("channel")
         sentiment =  Sentiment()
         if sentiment.contains_emoji(text) and sentiment.contains_user(text):
             print(f"found an emoji and a user in : {text}")
+            emojis = sentiment.contains_emoji(text)
+            users = sentiment.contains_user(text)
+            if sentiment.is_positive_emoji(emojis[0]):
+                pyBot.give_kudos(emojis[0], users[0], channel_id)
+
             #TODO probably want an emoji matcher and a findall to separate check from get
             #TODO same thing on users
     elif event_type == "app_mention":
         user_id = slack_event["event"].get("user")
         channel_id = slack_event["event"].get("channel")
         # pyBot.auth("chat.postMessage")
-        pyBot.send_quote_message(app.logger, channel_id)
+        pyBot.send_quote_message(channel_id)
         return make_response("Sent a simple DM back to the person who mentioned me", 200,)
 
     elif event_type == "reaction_removed":
