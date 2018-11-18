@@ -263,16 +263,16 @@ class Bot(object):
         self.logger.info(post_message)
 
     def give_kudos(self, emoji, user, channel_id):
-        print("attempting to give someone kudos")
-        if user not in kudos:
+        print(f"attempting to give someone kudos from {self}")
+        if user in kudos:
+            kudos[user] += 1
+            print(f"set {user} to {kudos[user]} kudos")
+        else:
             kudos[user] = 1
             print(f"set {user} to 1 kudos")
-        else:
-            count = kudos[user]
-            count += 1
-            print(f"set {user} to {count} kudos")
 
         post_message = self.client.api_call("chat.postMessage",
                                             channel=channel_id,
                                             text=f"Whoop whoop. {user} now has {kudos[user]} kudos!"
                                             )
+        print(post_message)
