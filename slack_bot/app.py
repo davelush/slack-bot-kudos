@@ -53,14 +53,15 @@ def _event_handler(event_type, slack_event):
             if sentiment.is_positive_emoji(emojis[0]):
                 pyBot.give_kudos(emojis[0], users[0], channel_id)
 
+        return make_response("Updated kudos status and sent messages", 200)
             #TODO probably want an emoji matcher and a findall to separate check from get
             #TODO same thing on users
-    elif event_type == "app_mention":
-        user_id = slack_event["event"].get("user")
-        channel_id = slack_event["event"].get("channel")
-        # pyBot.auth("chat.postMessage")
-        pyBot.send_quote_message(channel_id)
-        return make_response("Sent a simple DM back to the person who mentioned me", 200,)
+    # elif event_type == "app_mention":
+    #     user_id = slack_event["event"].get("user")
+    #     channel_id = slack_event["event"].get("channel")
+    #     # pyBot.auth("chat.postMessage")
+    #     pyBot.send_quote_message(channel_id)
+    #     return make_response("Sent a simple DM back to the person who mentioned me", 200,)
 
     elif event_type == "reaction_removed":
         return make_response("Not yet implemented", 200,)
