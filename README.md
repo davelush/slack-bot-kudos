@@ -35,7 +35,8 @@ A Slack app configured in your workspace
 2. Update the Request URL in the Event Subscriptions section of your [Slack App](https://api.slack.com/apps) configuration 
     - `http://abcdef01.ngrok.io/listening` — Don't forget to add listening to the end of the url
     - `docker run --rm -it -p 8080:8080 $IMAGE_ID_FROM_ABOVE`
-3. Run your application on 8765 locally
+3. Set an environment variable of `$BOT_TOKEN=abcdef01`. This is the Bot User OAuth Access Token from your Slack App configuration. This is a temporary workaround as I'm having trouble getting the OAuth flow working smoothly.
+4. Run your application on 8765 locally
 
 ## Running the tests
 
