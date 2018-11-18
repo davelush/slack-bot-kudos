@@ -14,12 +14,14 @@ from slackclient import SlackClient
 from slack_bot.quotegenerator import QuoteGenerator
 
 authed_teams = {}
+kudos = {}
 
 
 class Bot(object):
     """ Instantiates a Bot object to handle Slack onboarding interactions."""
-    def __init__(self):
+    def __init__(self, logger):
         super(Bot, self).__init__()
+        self.logger = logger
         self.name = "gonzo"
         self.emoji = ":peanut_butter_jelly_time:"
         # When we instantiate a new bot object, we can access the app
@@ -252,10 +254,25 @@ class Bot(object):
         # Update the timestamp saved on the message object
         message_obj.timestamp = post_message["ts"]
 
-    def send_quote_message(self, logger, channel_id):
+    def send_quote_message(self, channel_id):
         quote_gen = QuoteGenerator()
         post_message = self.client.api_call("chat.postMessage",
                                             channel=channel_id,
                                             text=quote_gen.random()
                                             )
-        logger.info(post_message)
+        self.logger.info(post_message)
+
+    def give_kudos(self, emoji, user, channel_id):
+        print("attempting to give someone kudos")
+        if user not in kudos:
+            kudos[user] = 1
+            print(f"set {user} to 1 kudos")
+        else:
+            count = kudos[user]
+            count += 1
+            print(f"set {user} to {count} kudos")
+
+        post_message = self.client.api_call("chat.postMessage",
+                                            channel=channel_id,
+                                            text=f"Whoop whoop. {user} now has {kudos[user]} kudos!"
+                                            )
