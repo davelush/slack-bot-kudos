@@ -9,6 +9,7 @@ name = "pypi"
 
 flask = "*"
 slackclient = "*"
+pyyaml = "*"
 
 
 [dev-packages]
