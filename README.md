@@ -1,21 +1,8 @@
 # Kudos Slack Bot
 
-This is started as a sandbox for playing around with creating a Slack bot. As I've become more comfortable with the programming model it's morphing into a bot for both receiving and giving kudos (regular peer feedback) as a Slack user. I've used the [Slack Python Onboarding Tutorial](https://github.com/slackapi/Slack-Python-Onboarding-Tutorial/blob/master/README.md#pythonboarding-bot) which gives a good set of initial constructs along with guidance on setup. 
+This is started as a sandbox for playing around with creating a Slack bot. As I've become more comfortable with the programming model it's morphing into a bot for both receiving and giving kudos (regular peer feedback) as a Slack user. I've used the [Slack Python Onboarding Tutorial](https://github.com/slackapi/Slack-Python-Onboarding-Tutorial/blob/master/README.md#pythonboarding-bot) which gives a good set of initial constructs along with guidance on setup.
 
-### What has been done?
-- [x] Get to grips with the incoming events and how to generate outbound messages
-- [x] Set up a few fun interactions for the bot (random Gonzo quotes as a starter)
-- [x] Put a few basic [pytest](https://docs.pytest.org/en/latest/) tests in place (PyTest and Python are new to me)
-
-### What is left to do?
-
-- [ ] Identify messages with an emoji and a tagged person
-- [ ] Identify that the emoji is associated with giving kudos
-- [ ] Look at a Trello and GitHub integration. Be nice to link a kanban board with this
-- [ ] Keep track of who has received what kudos (in memory initially)
-- [ ] Stop people from giving themselves kudos
-- [ ] Create a Dockerfile so that it can be deployed in a K8s cluster
-- [ ] Persist this state to a DB
+If you want to follow what I'm up to now and next there is a [Trello Board](https://trello.com/b/7GD4f1QM/kudos-slack-bot)
 
 ## Getting Started
 
