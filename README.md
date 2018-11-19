@@ -34,7 +34,7 @@ pytest
 
 ## Deployment
 
-Not yet added
+Not yet added. Base `Dockerfile` is available but untested
 
 ## Built With
 
