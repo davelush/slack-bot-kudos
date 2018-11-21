@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-A routing layer for the onboarding bot tutorial built using
-[Slack's Events API](https://api.slack.com/events-api) in Python
-"""
+
 import json
 from flask import Flask, request, make_response, render_template
 from slack_bot import bot
@@ -14,33 +11,8 @@ slack = pyBot.client
 
 
 def _event_handler(event_type, slack_event):
-    """
-    A helper function that routes events from Slack to our Bot
-    by event type and subtype.
-
-    Parameters
-    ----------
-    event_type : str
-        type of event received from Slack
-    slack_event : dict
-        JSON response from a Slack reaction event
-
-    Returns
-    ----------
-    obj
-        Response object with 200 - ok or 500 - No Event Handler error
-
-    """
-    team_id = slack_event["team_id"]
+    # team_id = slack_event["team_id"]
     app.logger.info(f"{event_type} and body [{slack_event}]")
-
-    # # ============= Reaction Added Events ============= #
-    # # If the user has added an emoji reaction to the onboarding message
-    # elif event_type == "reaction_added":
-    #     user_id = slack_event["event"]["user"]
-    #     # Update the onboarding message
-    #     pyBot.update_emoji(team_id, user_id)
-    #     return make_response("Welcome message updates with reactji", 200,)
 
     if event_type == "message":
         text = slack_event["event"].get("text")
@@ -62,17 +34,12 @@ def _event_handler(event_type, slack_event):
     #     # pyBot.auth("chat.postMessage")
     #     pyBot.send_quote_message(channel_id)
     #     return make_response("Sent a simple DM back to the person who mentioned me", 200,)
-
     elif event_type == "reaction_removed":
         return make_response("Not yet implemented", 200,)
-
     elif event_type == "emoji_changed":
         return make_response("Not yet implemented", 200,)
 
-    # ============= Event Type Not Found! ============= #
-    # If the event_type does not have a handler
     message = "You have not added an event handler for the %s" % event_type
-    # Return a helpful error message
     return make_response(message, 200, {"X-Slack-No-Retry": 1})
 
 
@@ -83,13 +50,12 @@ def pre_install():
     # them more easily while we're developing our app.
     client_id = pyBot.oauth["client_id"]
     scope = pyBot.oauth["scope"]
-    # Our template is using the Jinja templating language to dynamically pass
-    # our client id and scope
     return render_template("install.html", client_id=client_id, scope=scope)
 
 
 @app.route("/thanks", methods=["GET", "POST"])
 def thanks():
+    # FIXME OAuth is not working smoothly
     """
     This route is called by Slack after the user installs our app. It will
     exchange the temporary authorization code Slack sends for an OAuth token
@@ -106,42 +72,24 @@ def thanks():
 
 @app.route("/listening", methods=["GET", "POST"])
 def hears():
-    """
-    This route listens for incoming events from Slack and uses the event
-    handler helper function to route events to our Bot.
-    """
     slack_event = json.loads(request.data)
 
-    # ============= Slack URL Verification ============ #
-    # In order to verify the url of our endpoint, Slack will send a challenge
-    # token in a request and check for this token in the response our endpoint
-    # sends back.
-    #       For more info: https://api.slack.com/events/url_verification
+    # Echo Slack's challenge when you subscribe to events
     if "challenge" in slack_event:
-        return make_response(slack_event["challenge"], 200, {"content_type":
-                                                             "application/json"
-                                                             })
+        return make_response(slack_event["challenge"], 200, {"content_type": "application/json"})
 
-    # ============ Slack Token Verification =========== #
-    # We can verify the request is coming from Slack by checking that the
-    # verification token in the request matches our app's settings
+    # Verify it's actually Slack sending us events
     if pyBot.verification != slack_event.get("token"):
-        message = "Invalid Slack verification token: %s \npyBot has: \
-                   %s\n\n" % (slack_event["token"], pyBot.verification)
-        # By adding "X-Slack-No-Retry" : 1 to our response headers, we turn off
-        # Slack's automatic retries during development.
+        message = f"Invalid Slack verification token: {slack_event['token']} pyBot has: {pyBot.verification}"
         make_response(message, 403, {"X-Slack-No-Retry": 1})
 
-    # ====== Process Incoming Events from Slack ======= #
-    # If the incoming request is an Event we've subcribed to
+    # Handle any events correctly
     if "event" in slack_event:
         event_type = slack_event["event"]["type"]
-        # Then handle the event by event_type and have your bot respond
         return _event_handler(event_type, slack_event)
-    # If our bot hears things that are not events we've subscribed to,
-    # send a quirky but helpful error response
-    return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids\
-                         you're looking for.", 404, {"X-Slack-No-Retry": 1})
+
+    # Canned response for events we're not subscribed to
+    return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids you're looking for.", 404, {"X-Slack-No-Retry": 1})
 
 
 if __name__ == '__main__':
