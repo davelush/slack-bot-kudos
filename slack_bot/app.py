@@ -4,9 +4,17 @@ import json
 from flask import Flask, request, make_response, render_template
 from slack_bot import bot
 from kudos.sentiment import Sentiment
+import psycopg2
 
 app = Flask(__name__)
-pyBot = bot.Bot(app.logger)
+
+postgres_connection = psycopg2.connect(
+                        host = "localhost",
+                        port = 5432,
+                        dbname = "postgres"
+                    )
+
+pyBot = bot.Bot(app.logger, postgres_connection)
 slack = pyBot.client
 
 
