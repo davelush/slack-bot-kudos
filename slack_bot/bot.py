@@ -1,25 +1,18 @@
 # -*- coding: utf-8 -*-
-"""
-Python Slack Bot class for use with the pythOnBoarding app
-"""
 import os
 from slack_bot import message
-
 from slackclient import SlackClient
 
 # To remember which teams have authorized your app and what tokens are
 # associated with each team, we can store this information in memory on
 # as a global object.
-#FIXME When your bot is out of development, it's best to save this in a more persistent memory store.
-from slack_bot.quotegenerator import QuoteGenerator
-
+#FIXME When your bot is out of development, it's best to save to a more persistent memory store.
 authed_teams = {}
 kudos = {}
 
-
 class Bot(object):
     """ Instantiates a Bot object to handle Slack onboarding interactions."""
-    def __init__(self, logger):
+    def __init__(self, logger, postgres_connection):
         super(Bot, self).__init__()
         self.logger = logger
         self.name = "gonzo"
@@ -28,9 +21,6 @@ class Bot(object):
         # credentials we set earlier in our local development environment.
         self.oauth = {"client_id": os.environ.get("CLIENT_ID"),
                       "client_secret": os.environ.get("CLIENT_SECRET"),
-                      # Scopes provide and limit permissions to what our app
-                      # can access. It's important to use the most restricted
-                      # scope that your app will need.
                       "scope": "bot"}
         self.verification = os.environ.get("VERIFICATION_TOKEN")
 
@@ -78,25 +68,6 @@ class Bot(object):
         # bot token
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
 
-    def open_dm(self, user_id):
-        """
-        Open a DM to send a welcome message when a 'team_join' event is
-        recieved from Slack.
-
-        Parameters
-        ----------
-        user_id : str
-            id of the Slack user associated with the 'team_join' event
-
-        Returns
-        ----------
-        dm_id : str
-            id of the DM channel opened by this method
-        """
-        new_dm = self.client.api_call("im.open",
-                                      user=user_id)
-        dm_id = new_dm["channel"]["id"]
-        return dm_id
 
     def onboarding_message(self, team_id, user_id):
         """
@@ -151,116 +122,6 @@ class Bot(object):
         # has completed an onboarding task.
         message_obj.timestamp = timestamp
 
-    def update_emoji(self, team_id, user_id):
-        """
-        Update onboarding welcome message after recieving a "reaction_added"
-        event from Slack. Update timestamp for welcome message.
-
-        Parameters
-        ----------
-        team_id : str
-            id of the Slack team associated with the incoming event
-        user_id : str
-            id of the Slack user associated with the incoming event
-
-        """
-        # These updated attachments use markdown and emoji to mark the
-        # onboarding task as complete
-        completed_attachments = {"text": ":white_check_mark: "
-                                         "~*Add an emoji reaction to this "
-                                         "message*~ :thinking_face:",
-                                 "color": "#439FE0"}
-        # Grab the message object we want to update by team id and user id
-        message_obj = self.messages[team_id].get(user_id)
-        # Update the message's attachments by switching in incomplete
-        # attachment with the completed one above.
-        message_obj.emoji_attachment.update(completed_attachments)
-        # Update the message in Slack
-        post_message = self.client.api_call("chat.update",
-                                            channel=message_obj.channel,
-                                            ts=message_obj.timestamp,
-                                            text=message_obj.text,
-                                            attachments=message_obj.attachments
-                                            )
-        # Update the timestamp saved on the message object
-        message_obj.timestamp = post_message["ts"]
-
-    def update_pin(self, team_id, user_id):
-        """
-        Update onboarding welcome message after recieving a "pin_added"
-        event from Slack. Update timestamp for welcome message.
-
-        Parameters
-        ----------
-        team_id : str
-            id of the Slack team associated with the incoming event
-        user_id : str
-            id of the Slack user associated with the incoming event
-
-        """
-        # These updated attachments use markdown and emoji to mark the
-        # onboarding task as complete
-        completed_attachments = {"text": ":white_check_mark: "
-                                         "~*Pin this message*~ "
-                                         ":round_pushpin:",
-                                 "color": "#439FE0"}
-        # Grab the message object we want to update by team id and user id
-        message_obj = self.messages[team_id].get(user_id)
-        # Update the message's attachments by switching in incomplete
-        # attachment with the completed one above.
-        message_obj.pin_attachment.update(completed_attachments)
-        # Update the message in Slack
-        post_message = self.client.api_call("chat.update",
-                                            channel=message_obj.channel,
-                                            ts=message_obj.timestamp,
-                                            text=message_obj.text,
-                                            attachments=message_obj.attachments
-                                            )
-        # Update the timestamp saved on the message object
-        message_obj.timestamp = post_message["ts"]
-
-    def update_share(self, team_id, user_id):
-        """
-        Update onboarding welcome message after recieving a "message" event
-        with an "is_share" attachment from Slack. Update timestamp for
-        welcome message.
-
-        Parameters
-        ----------
-        team_id : str
-            id of the Slack team associated with the incoming event
-        user_id : str
-            id of the Slack user associated with the incoming event
-
-        """
-        # These updated attachments use markdown and emoji to mark the
-        # onboarding task as complete
-        completed_attachments = {"text": ":white_check_mark: "
-                                         "~*Share this Message*~ "
-                                         ":mailbox_with_mail:",
-                                 "color": "#439FE0"}
-        # Grab the message object we want to update by team id and user id
-        message_obj = self.messages[team_id].get(user_id)
-        # Update the message's attachments by switching in incomplete
-        # attachment with the completed one above.
-        message_obj.share_attachment.update(completed_attachments)
-        # Update the message in Slack
-        post_message = self.client.api_call("chat.update",
-                                            channel=message_obj.channel,
-                                            ts=message_obj.timestamp,
-                                            text=message_obj.text,
-                                            attachments=message_obj.attachments
-                                            )
-        # Update the timestamp saved on the message object
-        message_obj.timestamp = post_message["ts"]
-
-    def send_quote_message(self, channel_id):
-        quote_gen = QuoteGenerator()
-        post_message = self.client.api_call("chat.postMessage",
-                                            channel=channel_id,
-                                            text=quote_gen.random()
-                                            )
-        self.logger.info(post_message)
 
     def give_kudos(self, emoji, user, channel_id):
         print(f"attempting to give someone kudos from {self}")
