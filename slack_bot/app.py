@@ -6,14 +6,13 @@ from slack_bot import bot
 from kudos.sentiment import Sentiment
 import psycopg2
 
+# TODO go back and review the source code of the original Slack project for ideas
 app = Flask(__name__)
-
 postgres_connection = psycopg2.connect(
-                        host = "localhost",
-                        port = 5432,
-                        dbname = "postgres"
-                    )
-
+    host="localhost",
+    port=5432,
+    dbname="postgres"
+)
 pyBot = bot.Bot(app.logger, postgres_connection)
 slack = pyBot.client
 
@@ -25,7 +24,7 @@ def _event_handler(event_type, slack_event):
     if event_type == "message":
         text = slack_event["event"].get("text")
         channel_id = slack_event["event"].get("channel")
-        sentiment =  Sentiment()
+        sentiment = Sentiment()
         if sentiment.contains_emoji(text) and sentiment.contains_user(text):
             print(f"found an emoji and a user in : {text}")
             emojis = sentiment.contains_emoji(text)
@@ -34,8 +33,8 @@ def _event_handler(event_type, slack_event):
                 pyBot.give_kudos(emojis[0], users[0], channel_id)
 
         return make_response("Updated kudos status and sent messages", 200)
-            #TODO probably want an emoji matcher and a findall to separate check from get
-            #TODO same thing on users
+        # TODO probably want an emoji matcher and a findall to separate check from get
+        # TODO same thing on users
     # elif event_type == "app_mention":
     #     user_id = slack_event["event"].get("user")
     #     channel_id = slack_event["event"].get("channel")
@@ -43,9 +42,9 @@ def _event_handler(event_type, slack_event):
     #     pyBot.send_quote_message(channel_id)
     #     return make_response("Sent a simple DM back to the person who mentioned me", 200,)
     elif event_type == "reaction_removed":
-        return make_response("Not yet implemented", 200,)
+        return make_response("Not yet implemented", 200, )
     elif event_type == "emoji_changed":
-        return make_response("Not yet implemented", 200,)
+        return make_response("Not yet implemented", 200, )
 
     message = "You have not added an event handler for the %s" % event_type
     return make_response(message, 200, {"X-Slack-No-Retry": 1})
@@ -97,7 +96,8 @@ def hears():
         return _event_handler(event_type, slack_event)
 
     # Canned response for events we're not subscribed to
-    return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids you're looking for.", 404, {"X-Slack-No-Retry": 1})
+    return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids you're looking for.", 404,
+                         {"X-Slack-No-Retry": 1})
 
 
 if __name__ == '__main__':
