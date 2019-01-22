@@ -75,7 +75,7 @@ class Bot(object):
         timestamp = post_message["ts"]
         message_obj.timestamp = timestamp
 
-    def give_kudos(self, emoji, user, channel_id):
+    def give_kudos(self, user, event_ts, channel, text, client_msg_id):
         print(f"attempting to give someone kudos from {self}")
         if user in kudos:
             kudos[user] += 1
@@ -84,10 +84,10 @@ class Bot(object):
             kudos[user] = 1
             print(f"set {user} to 1 kudos")
 
-        self.user_kudos_repo.create(user)
+        self.user_kudos_repo.create(user, event_ts, channel, text, client_msg_id)
 
         post_message = self.client.api_call("chat.postMessage",
-                                            channel=channel_id,
+                                            channel=channel,
                                             text=f"Whoop whoop. {user} now has {kudos[user]} kudos!"
                                             )
         print(post_message)
