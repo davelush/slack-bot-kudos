@@ -7,7 +7,7 @@ class UserKudosRepository:
         super(UserKudosRepository, self).__init__()
         self.conn = postgres_connection
 
-    def create(self, user):
+    def create(self, user, event_ts, channel, text, client_msg_id):
         try:
             cur = self.conn.cursor()
             cur.execute(
@@ -16,15 +16,23 @@ class UserKudosRepository:
                     slack_bot.user_kudos
                     (
                         user_id,
-                        kudos_timestamp
+                        event_ts,
+                        creation_ts,
+                        channel,
+                        text,
+                        client_msg_id
                     )
                     VALUES
                     (
                         %s,
+                        %s,
+                        %s,
+                        %s,
+                        %s,
                         %s
                     )
                 """,
-                (user, datetime.now(timezone.utc)))
+                (user, event_ts, datetime.now(timezone.utc), channel, text, client_msg_id))
             self.conn.commit()
         finally:
             cur.close()

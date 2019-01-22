@@ -22,8 +22,10 @@ def _event_handler(event_type, slack_event):
     app.logger.info(f"{event_type} and body [{slack_event}]")
 
     if event_type == "message":
-        text = slack_event["event"].get("text")
-        channel_id = slack_event["event"].get("channel")
+        text = slack_event.get("event").get("text")
+        channel_id = slack_event.get("event").get("channel")
+        event_ts = slack_event.get("event").get("ts")
+        client_msg_id = slack_event.get("event").get("client_msg_id")
         sentiment = Sentiment()
         if sentiment.contains_emoji(text) and sentiment.contains_user(text):
             print(f"found an emoji and a user in : {text}")
@@ -31,9 +33,10 @@ def _event_handler(event_type, slack_event):
             users = sentiment.contains_user(text)
             if sentiment.is_positive_emoji(emojis[0]):
                 print(f"{event_type} : {slack_event}")
-                pyBot.give_kudos(emojis[0], users[0], channel_id)
+                pyBot.give_kudos(users[0], event_ts, channel_id, text, client_msg_id)
 
-        return make_response("Updated kudos status and sent messages", 200)
+        message = "Updated kudos and sent response message"
+        return make_response(message, 200, )
         # TODO probably want an emoji matcher and a findall to separate check from get
         # TODO same thing on users
     # elif event_type == "app_mention":
