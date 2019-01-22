@@ -8,8 +8,8 @@ class UserKudosRepository:
         self.conn = postgres_connection
 
     def create(self, user, event_ts, channel, text, client_msg_id):
+        cur = self.conn.cursor()
         try:
-            cur = self.conn.cursor()
             cur.execute(
                 """
                 INSERT INTO
@@ -34,5 +34,19 @@ class UserKudosRepository:
                 """,
                 (user, event_ts, datetime.now(timezone.utc), channel, text, client_msg_id))
             self.conn.commit()
+        finally:
+            cur.close()
+
+    def get_count(self, user_id):
+        cur = self.conn.cursor()
+        try:
+            cur.execute(
+                """
+                SELECT COUNT(*)
+                FROM slack_bot.user_kudos
+                WHERE user_id = %s
+                """,
+                (user_id,))
+            return cur.fetchone()[0]
         finally:
             cur.close()

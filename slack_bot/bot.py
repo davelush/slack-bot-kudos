@@ -11,7 +11,6 @@ from slackclient import SlackClient
 # as a global object.
 # FIXME When your bot is out of development, it's best to save to a more persistent memory store.
 authed_teams = {}
-kudos = {}
 
 
 class Bot(object):
@@ -77,17 +76,12 @@ class Bot(object):
 
     def give_kudos(self, user, event_ts, channel, text, client_msg_id):
         print(f"attempting to give someone kudos from {self}")
-        if user in kudos:
-            kudos[user] += 1
-            print(f"set {user} to {kudos[user]} kudos")
-        else:
-            kudos[user] = 1
-            print(f"set {user} to 1 kudos")
 
         self.user_kudos_repo.create(user, event_ts, channel, text, client_msg_id)
+        kudos_count = self.user_kudos_repo.get_count(user)
 
         post_message = self.client.api_call("chat.postMessage",
                                             channel=channel,
-                                            text=f"Whoop whoop. {user} now has {kudos[user]} kudos!"
+                                            text=f"Whoop whoop. {user} now has {kudos_count} kudos!"
                                             )
         print(post_message)
