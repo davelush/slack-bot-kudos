@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, timezone
 import os
+
+from kudos.user_kudos_repository import UserKudosRepository
 from slack_bot import message
 from slackclient import SlackClient
 
@@ -29,6 +32,8 @@ class Bot(object):
                       "client_secret": os.environ.get("CLIENT_SECRET"),
                       "scope": "bot"}
         self.verification = os.environ.get("VERIFICATION_TOKEN")
+
+        self.user_kudos_repo = UserKudosRepository(postgres_connection)
 
         # NOTE: Python-slack requires a client connection to generate
         # an oauth token. We can connect to the client without authenticating
@@ -78,6 +83,8 @@ class Bot(object):
         else:
             kudos[user] = 1
             print(f"set {user} to 1 kudos")
+
+        self.user_kudos_repo.create(user)
 
         post_message = self.client.api_call("chat.postMessage",
                                             channel=channel_id,
