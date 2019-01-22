@@ -30,6 +30,7 @@ def _event_handler(event_type, slack_event):
             emojis = sentiment.contains_emoji(text)
             users = sentiment.contains_user(text)
             if sentiment.is_positive_emoji(emojis[0]):
+                print(f"{event_type} : {slack_event}")
                 pyBot.give_kudos(emojis[0], users[0], channel_id)
 
         return make_response("Updated kudos status and sent messages", 200)
