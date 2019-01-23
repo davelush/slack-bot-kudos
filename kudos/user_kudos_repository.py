@@ -50,3 +50,10 @@ class UserKudosRepository:
             return cur.fetchone()[0]
         finally:
             cur.close()
+
+    def get_count_this_month(self, user_id):
+        cur = self.conn.cursor()
+        try:
+            print("")
+        finally:
+            cur.close()
