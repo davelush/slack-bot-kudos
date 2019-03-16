@@ -1,4 +1,4 @@
 test:
-  image: 3.7-stretch
+  image: python:3.7-stretch
   script:
     - echo "running something"
