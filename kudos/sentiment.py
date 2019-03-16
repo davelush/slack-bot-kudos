@@ -1,5 +1,6 @@
 import re
 
+
 class Sentiment(object):
     positive_emojis = [":star:",
                        ":star2:",
