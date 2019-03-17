@@ -1,36 +1,35 @@
+services:
+  - docker:dind
+
 test:
   image: python:3.7-stretch
   script:
-    - echo "running something"
     - pip install setuptools==39.2.0
     - python -m pip install pip==9.0.3
     - pip install pipenv
     - pipenv install --ignore-pipfile
     - pipenv install -d
     - pipenv run python setup.py install
-    - echo "finished doing pipenv dependency setup"
     - pipenv run pytest
 
-docker-build:
+build-master:
   image: docker:latest
-  services:
-    - docker:dind
-
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  stage: build
+  script:
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
+  only:
+    - master
 
-  build-master:
-    stage: build
-    script:
-      - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-      - docker push "$CI_REGISTRY_IMAGE"
-    only:
-      - master
-
-  build:
-    stage: build
-    script:
-      - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
-      - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-    except:
-      - master
+build:
+  image: docker:latest
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  stage: build
+  script:
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+  except:
+    - master
