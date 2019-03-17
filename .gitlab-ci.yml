@@ -1,7 +1,7 @@
 services:
   - docker:dind
 
-test:
+pytest:
   image: python:3.7-stretch
   stage: build
   script:
