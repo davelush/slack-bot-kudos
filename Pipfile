@@ -10,6 +10,7 @@ pytest = "*"
 flask = "*"
 slackclient = "*"
 pyyaml = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.7"

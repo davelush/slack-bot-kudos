@@ -1,10 +1,16 @@
 FROM python:3.7-alpine
 
-WORKDIR /usr/src/app
+RUN apt-get update && apt-get -y install libpq-dev libev-dev && pip3 install --user pipenv
+ENV PATH="${PATH}:/root/.local/bin"
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+# Following env vars required for pipenv
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 
-COPY . .
+COPY README.md setup.py Pipfile Pipfile.lock /app/
+WORKDIR /app
+RUN pipenv install && pipenv run python3 setup.py install
 
-CMD [ "python", "./slack_bot/app.py" ]
+COPY . /app
+
+ENTRYPOINT [ "pipenv", "run", "python3", "-m", "slack_bot" ]
