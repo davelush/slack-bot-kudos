@@ -1,6 +1,6 @@
 FROM python:3.7-alpine
 
-RUN apt-get update && apt-get -y install libpq-dev libev-dev && pip3 install --user pipenv
+RUN apk update && apk add --update libpq-dev libev-dev && pip3 install --user pipenv
 ENV PATH="${PATH}:/root/.local/bin"
 
 # Following env vars required for pipenv
