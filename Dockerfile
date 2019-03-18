@@ -1,7 +1,7 @@
 FROM python:3.7-alpine
 
-RUN apk update && pip3 install --user pipenv # && apk add --update libpq-dev libev-dev
 ENV PATH="${PATH}:/root/.local/bin"
+RUN apk update && pip3 install --user pipenv # && apk add --update libpq-dev libev-dev
 
 # Following env vars required for pipenv
 ENV LC_ALL=C.UTF-8
