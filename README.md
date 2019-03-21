@@ -4,7 +4,7 @@
 
 This is started as a sandbox for playing around with creating a Slack bot. As I've become more comfortable with the programming model it's morphing into a bot for both receiving and giving kudos (regular peer feedback) as a Slack user. I've used the [Slack Python Onboarding Tutorial](https://github.com/slackapi/Slack-Python-Onboarding-Tutorial/blob/master/README.md#pythonboarding-bot) which gives a good set of initial constructs along with guidance on setup.
 
-If you want to follow what I'm up to now and next there is a [Trello Board](https://trello.com/b/7GD4f1QM/kudos-slack-bot)
+If you want to follow what I'm up to now and next there is a [Kanban Board](https://github.com/davelush/slack-bot-kudos/projects/1)
 
 ## Getting Started
 
