@@ -16,11 +16,8 @@ authed_teams = {}
 class Bot(object):
     """ Instantiates a Bot object to handle Slack onboarding interactions."""
 
-    def __init__(self, logger, postgres_connection):
+    def __init__(self, postgres_connection):
         super(Bot, self).__init__()
-
-        # TODO there has to be a better way of getting a logger than passing it from Flask
-        self.logger = logger
 
         # bot identitiy
         self.name = "gonzo"
