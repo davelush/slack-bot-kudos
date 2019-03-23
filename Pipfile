@@ -8,9 +8,12 @@ pytest = "*"
 
 [packages]
 flask = "*"
+flask_restful = "*"
+flask_cors = "*"
 slackclient = "*"
 pyyaml = "*"
 psycopg2-binary = "*"
+#api = "*"
 
 [requires]
 python_version = "3.7"
