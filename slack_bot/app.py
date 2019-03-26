@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
+from argparse import ArgumentParser
+
 import psycopg2
 from flask import Flask
 from flask_cors import CORS
@@ -9,11 +13,59 @@ from slack_bot.slack_install_handler import SlackInstallHandler
 from slack_bot.slack_post_install_handler import SlackPostInstallHandler
 
 
+def parse_cli_args(command_line, environment):
+    parser = ArgumentParser()
+
+    parser.add_argument(
+        "--postgres-host",
+        action="store_true",
+        default=environment.get("POSTGRES_HOST", "127.0.0.1"),
+        help="Postgres host"
+    )
+    parser.add_argument(
+        "--postgres-port",
+        action="store_true",
+        default=int(environment.get("POSTGRES_PORT", 5432)),
+        help="Postgres host's port"
+    )
+    parser.add_argument(
+        "--postgres-db",
+        action="store_true",
+        default=environment.get("POSTGRES_DB", "metrics"),
+        help="Postgres DB"
+    )
+    parser.add_argument(
+        "--postgres-schema",
+        action="store_true",
+        default=environment.get("POSTGRES_SCHEMA", "kudosbot"),
+        help="Postgres DB's schema"
+    )
+    parser.add_argument(
+        "--postgres-user",
+        action="store_true",
+        default=environment.get("POSTGRES_user", None),
+        help="Postgres DB's schema"
+    )
+    parser.add_argument(
+        "--postgres-pass",
+        action="store_true",
+        default=environment.get("POSTGRES_PASS", None),
+        help="Postgres password"
+    )
+
+    arguments = parser.parse_args(command_line)
+
+    return arguments
+
+
 def setup():
+    args = parse_cli_args(sys.argv[1:], os.environ)
     postgres_connection = psycopg2.connect(
-        host="localhost",
-        port=5432,
-        dbname="postgres"
+        host=args.postgres_host,
+        port=args.postgres_port,
+        dbname=args.postgres_db,
+        user=args.postgres_user,
+        password=args.postgres_pass
     )
     py_bot = bot.Bot(postgres_connection)
 
