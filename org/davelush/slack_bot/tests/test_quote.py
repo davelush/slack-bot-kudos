@@ -1,5 +1,6 @@
 from org.davelush.slack_bot.quotegenerator import QuoteGenerator
 
+
 class TestQuote(object):
 
     def test_quote_not_none(self):
