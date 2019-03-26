@@ -4,7 +4,7 @@ import logging
 from flask import request, make_response
 from flask_restful import Resource
 
-from kudos.sentiment import Sentiment
+from org.davelush.kudos.sentiment import Sentiment
 
 
 def event_handler(event_type, slack_event, py_bot):

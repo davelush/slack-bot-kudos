@@ -1,4 +1,4 @@
-from slack_bot.quotegenerator import QuoteGenerator
+from org.davelush.slack_bot.quotegenerator import QuoteGenerator
 
 class TestQuote(object):
 

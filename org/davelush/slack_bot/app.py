@@ -7,10 +7,10 @@ import psycopg2
 from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
-from slack_bot import bot
-from slack_bot.slack_event_handler import SlackEventHandler
-from slack_bot.slack_install_handler import SlackInstallHandler
-from slack_bot.slack_post_install_handler import SlackPostInstallHandler
+from org.davelush.slack_bot import bot
+from org.davelush.slack_bot.slack_event_handler import SlackEventHandler
+from org.davelush.slack_bot.slack_install_handler import SlackInstallHandler
+from org.davelush.slack_bot.slack_post_install_handler import SlackPostInstallHandler
 
 
 def parse_cli_args(command_line, environment):

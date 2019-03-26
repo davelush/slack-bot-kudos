@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timezone
 import os
 
-from kudos.user_kudos_repository import UserKudosRepository
-from slack_bot import message
+from org.davelush.kudos.user_kudos_repository import UserKudosRepository
+from org.davelush.slack_bot import message
 from slackclient import SlackClient
 
 # To remember which teams have authorized your app and what tokens are

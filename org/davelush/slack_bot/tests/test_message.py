@@ -1,6 +1,4 @@
-import pytest
-
-from slack_bot.message import Message
+from org.davelush.slack_bot.message import Message
 
 
 class TestMessage(object):

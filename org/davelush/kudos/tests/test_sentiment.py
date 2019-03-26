@@ -1,5 +1,5 @@
 from unittest import TestCase
-from kudos.sentiment import Sentiment
+from org.davelush.kudos.sentiment import Sentiment
 
 class TestSentiment(TestCase):
     sentiment = Sentiment()
