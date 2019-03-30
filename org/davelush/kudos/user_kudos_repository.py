@@ -13,7 +13,7 @@ class UserKudosRepository:
             cur.execute(
                 """
                 INSERT INTO
-                    slack_bot.user_kudos
+                    kudosbot.user_kudos
                     (
                         user_id,
                         event_ts,
@@ -43,7 +43,7 @@ class UserKudosRepository:
             cur.execute(
                 """
                 SELECT COUNT(*)
-                FROM slack_bot.user_kudos
+                FROM kudosbot.user_kudos
                 WHERE user_id = %s
                 """,
                 (user_id,))
