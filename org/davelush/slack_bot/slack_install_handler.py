@@ -17,4 +17,4 @@ class SlackInstallHandler(Resource):
         self.py_bot = kwargs.get('py_bot')
 
     def get(self):
-        pre_install(self.py_bot)
+        return pre_install(self.py_bot)

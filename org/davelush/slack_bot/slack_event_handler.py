@@ -64,10 +64,10 @@ class SlackEventHandler(Resource):
         self.py_bot = kwargs.get('py_bot')
 
     def post(self):
-        self.hears(self.py_bot)
+        return hears(self.py_bot)
 
     def get(self):
-        self.hears(self.py_bot)
+        return hears(self.py_bot)
 
 
 

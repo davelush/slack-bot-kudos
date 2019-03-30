@@ -24,7 +24,7 @@ class SlackPostInstallHandler(Resource):
         self.py_bot = kwargs.get('py_bot')
 
     def get(self):
-        thanks(self.py_bot)
+        return thanks(self.py_bot)
 
     def post(self):
-        thanks(self.py_bot)
+        return thanks(self.py_bot)
