@@ -18,7 +18,9 @@ class Sentiment(object):
     positive_emojis = [":star:",
                        ":star2:",
                        ":stars:",
-                       ":cookie:"]
+                       ":cookie:",
+                       ":chocfish:",
+                       ":chocfish2:"]
 
     def __init__(self):
         pass
