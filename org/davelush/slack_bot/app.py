@@ -19,7 +19,7 @@ def parse_cli_args(command_line, environment):
     parser.add_argument(
         "--postgres-host",
         action="store_true",
-        default=environment.get("POSTGRES_HOST", "127.0.0.1"),
+        default=environment.get("POSTGRES_HOST", "localhost"),
         help="Postgres host"
     )
     parser.add_argument(
