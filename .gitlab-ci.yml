@@ -13,24 +13,36 @@ pytest:
     - pipenv run python setup.py install
     - pipenv run python -m pytest
 
-build-master:
+build-app:
   image: docker:latest
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   stage: build
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" ./app/Dockerfile
     - docker push "$CI_REGISTRY_IMAGE"
   only:
     - master
 
-build:
+build-dbmigrate:
   image: docker:latest
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  stage: build
-  script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-  except:
-    - master
+    before_script:
+      - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    stage: build
+    script:
+      - docker build --pull -t "$CI_REGISTRY_IMAGE" ./db/Dockerfile
+      - docker push "$CI_REGISTRY_IMAGE"
+    only:
+      - master
+
+#
+#build:
+#  image: docker:latest
+#  before_script:
+#    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+#  stage: build
+#  script:
+#    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
+#    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+#  except:
+#    - master
