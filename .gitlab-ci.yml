@@ -20,7 +20,7 @@ build-app:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   stage: build
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" ./app/Dockerfile
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" ./app/
     - docker push "$CI_REGISTRY_IMAGE"
   only:
     - master
@@ -31,7 +31,7 @@ build-dbmigrate:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   stage: build
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" ./db/Dockerfile
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" ./db/
     - docker push "$CI_REGISTRY_IMAGE"
   only:
     - master
