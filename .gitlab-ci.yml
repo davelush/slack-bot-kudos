@@ -5,6 +5,7 @@ pytest:
   image: python:3.7-stretch
   stage: build
   script:
+    - cd app
     - pip install setuptools==39.2.0
     - python -m pip install pip==9.0.3
     - pip install pipenv
