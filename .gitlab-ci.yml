@@ -32,7 +32,7 @@ build-dbmigrate:
   stage: build
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE-dbmigrate" ./db/
-    - docker push "$CI_REGISTRY_IMAGE-dbmigrate"
+    - docker push "$CI_REGISTRY_IMAGE"
   only:
     - master
 
