@@ -31,8 +31,8 @@ build-dbmigrate:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   stage: build
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" ./db/
-    - docker push "$CI_REGISTRY_IMAGE"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE-dbmigrate" ./db/
+    - docker push "$CI_REGISTRY_IMAGE-dbmigrate"
   only:
     - master
 
