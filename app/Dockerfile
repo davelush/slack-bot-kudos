@@ -9,7 +9,7 @@ RUN pip3 install --user pipenv
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-COPY setup.py Pipfile Pipfile.lock /app/
+COPY README.md setup.py Pipfile Pipfile.lock /app/
 WORKDIR /app
 RUN pipenv install && pipenv run python3 setup.py install
 
