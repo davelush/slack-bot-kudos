@@ -43,7 +43,7 @@ def parse_cli_args(command_line, environment):
     parser.add_argument(
         "--postgres-user",
         action="store_true",
-        default=environment.get("POSTGRES_user", None),
+        default=environment.get("POSTGRES_USER", None),
         help="Postgres DB's schema"
     )
     parser.add_argument(
