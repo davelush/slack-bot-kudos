@@ -15,4 +15,4 @@ RUN pipenv install && pipenv run python3 setup.py install
 
 COPY . /app
 
-ENTRYPOINT [ "pipenv", "run", "python3", "-m", "slack_bot" ]
+ENTRYPOINT [ "pipenv", "run", "python3", "-m", "org.davelush.slack_bot.app" ]
