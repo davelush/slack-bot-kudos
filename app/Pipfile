@@ -14,6 +14,7 @@ slackclient = "*"
 pyyaml = "*"
 psycopg2-binary = "*"
 bjoern = "*"
+python-json-logger = "*"
 #api = "*"
 
 [requires]
