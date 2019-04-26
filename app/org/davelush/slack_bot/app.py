@@ -86,5 +86,5 @@ initialise_logging(logging.INFO)
 flask_app, flask_api = setup()
 
 if __name__ == '__main__':
-    bjoern.run(flask_app, '0.0.0.0', 5000)
     logging.info("kudos bot start as a bjoern flask app")
+    bjoern.run(flask_app, '0.0.0.0', 5000)
