@@ -2,7 +2,7 @@ FROM python:3.7-alpine
 
 ENV PATH="${PATH}:/root/.local/bin"
 RUN apk update
-RUN apk add postgresql-dev gcc python3-dev musl-dev
+RUN apk add postgresql-dev gcc python3-dev musl-dev libev libev-dev
 RUN pip3 install --user pipenv
 
 # Following env vars required for pipenv

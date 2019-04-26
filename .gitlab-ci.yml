@@ -21,7 +21,6 @@ build-app:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   stage: build
   script:
-    - apk update && apk add libev libev-dev
     - docker build --pull -t "$CI_REGISTRY/davelush/slack-bot-kudos/app" ./app/
     - docker push "$CI_REGISTRY/davelush/slack-bot-kudos/app"
   only:
