@@ -4,6 +4,7 @@ import sys
 from argparse import ArgumentParser
 
 import psycopg2
+import bjoern
 from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
@@ -81,4 +82,7 @@ def setup():
 flask_app, flask_api = setup()
 
 if __name__ == '__main__':
-    flask_app.run(debug=True, port=8765)
+    """
+    Start the Bjeorn server with the Flask App
+    """
+    bjoern.run(flask_app, '0.0.0.0', 5000)

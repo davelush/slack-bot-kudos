@@ -13,6 +13,7 @@ flask_cors = "*"
 slackclient = "*"
 pyyaml = "*"
 psycopg2-binary = "*"
+bjoern = "*"
 #api = "*"
 
 [requires]
