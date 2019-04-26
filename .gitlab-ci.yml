@@ -2,7 +2,7 @@ services:
   - docker:dind
 
 pytest:
-  image: python:3.7-stretch
+  image: python:3.6-stretch
   stage: build
   script:
     - cd app
