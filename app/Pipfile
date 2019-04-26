@@ -15,7 +15,6 @@ pyyaml = "*"
 psycopg2-binary = "*"
 bjoern = "*"
 python-json-logger = "*"
-#api = "*"
 
 [requires]
 python_version = "3.6"
