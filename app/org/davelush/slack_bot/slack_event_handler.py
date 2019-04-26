@@ -40,6 +40,8 @@ def event_handler(event_type, slack_event, py_bot):
 def hears(py_bot):
     slack_event = json.loads(request.data)
 
+    logging.info(slack_event)
+
     # Echo Slack's challenge when you subscribe to events
     if "challenge" in slack_event:
         return make_response(slack_event["challenge"], 200, {"content_type": "application/json"})
