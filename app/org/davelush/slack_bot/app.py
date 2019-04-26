@@ -8,6 +8,7 @@ import bjoern
 from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
+import logging
 from org.davelush.slack_bot import bot
 from org.davelush.slack_bot.logging_setup import setup_loggers
 from org.davelush.slack_bot.slack_event_handler import SlackEventHandler
@@ -85,3 +86,4 @@ flask_app, flask_api = setup()
 
 if __name__ == '__main__':
     bjoern.run(flask_app, '0.0.0.0', 5000)
+    logging.info("kudos bot start as a bjoern flask app")
