@@ -5,6 +5,7 @@ pytest:
   image: python:3.6-stretch
   stage: build
   script:
+    - apt-get update && apt-get install libev-dev
     - cd app
     - pip install setuptools==39.2.0
     - python -m pip install pip==9.0.3
