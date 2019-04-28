@@ -15,6 +15,7 @@ def event_handler(event_type, slack_event, py_bot):
         text = slack_event.get("event").get("text")
         channel_id = slack_event.get("event").get("channel")
         event_ts = slack_event.get("event").get("ts")
+        event_id = slack_event.get("event_id")
         client_msg_id = slack_event.get("event").get("client_msg_id")
         sentiment = Sentiment()
         if sentiment.contains_emoji(text) and sentiment.contains_user(text):
@@ -23,7 +24,7 @@ def event_handler(event_type, slack_event, py_bot):
             users = sentiment.contains_user(text)
             if sentiment.is_positive_emoji(emojis[0]):
                 print(f"{event_type} : {slack_event}")
-                py_bot.give_kudos(users[0], event_ts, channel_id, text, client_msg_id)
+                py_bot.give_kudos(users[0], event_ts, channel_id, text, client_msg_id, event_id)
 
         message = "Updated kudos and sent response message"
         return make_response(message, 200, )

@@ -7,7 +7,7 @@ class UserKudosRepository:
         super(UserKudosRepository, self).__init__()
         self.conn = postgres_connection
 
-    def create(self, user, event_ts, channel, text, client_msg_id):
+    def create(self, user, event_ts, channel, text, client_msg_id, event_id):
         cur = self.conn.cursor()
         try:
             cur.execute(
@@ -34,6 +34,23 @@ class UserKudosRepository:
                 """,
                 (user, event_ts, datetime.now(timezone.utc), channel, text, client_msg_id))
             self.conn.commit()
+        finally:
+            cur.close()
+
+    def event_exists(self, event_id):
+        cur = self.conn.cursor()
+        try:
+            cur.execute(
+                """
+                SELECT COUNT(*)
+                FROM kudosbot.user_kudos
+                WHERE event_id = %s
+                """,
+                (event_id,))
+            if cur.fetchone()[0] == 0:
+                return False
+            else:
+                return True
         finally:
             cur.close()
 

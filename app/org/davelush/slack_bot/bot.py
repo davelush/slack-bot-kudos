@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 import os
 
 from org.davelush.kudos.user_kudos_repository import UserKudosRepository
@@ -70,14 +71,13 @@ class Bot(object):
         timestamp = post_message["ts"]
         message_obj.timestamp = timestamp
 
-    def give_kudos(self, user, event_ts, channel, text, client_msg_id):
-        print(f"attempting to give someone kudos from {self}")
-
-        self.user_kudos_repo.create(user, event_ts, channel, text, client_msg_id)
-        kudos_count = self.user_kudos_repo.get_count(user)
-
-        post_message = self.client.api_call("chat.postMessage",
-                                            channel=channel,
-                                            text=f"Whoop whoop. {user} now has {kudos_count} kudos!"
-                                            )
-        print(post_message)
+    def give_kudos(self, user, event_ts, channel, text, client_msg_id, event_id):
+        logging.info(f"attempting to give someone kudos from {self}")
+        if not self.user_kudos_repo.event_exists(event_id):
+            self.user_kudos_repo.create(user, event_ts, channel, text, client_msg_id)
+            kudos_count = self.user_kudos_repo.get_count(user)
+            post_message = self.client.api_call("chat.postMessage",
+                                                channel=channel,
+                                                text=f"Whoop whoop. {user} now has {kudos_count} kudos!"
+                                                )
+            logging.info(post_message)
