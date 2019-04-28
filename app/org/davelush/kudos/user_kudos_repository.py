@@ -29,10 +29,11 @@ class UserKudosRepository:
                         %s,
                         %s,
                         %s,
+                        %s,
                         %s
                     )
                 """,
-                (user, event_ts, datetime.now(timezone.utc), channel, text, client_msg_id))
+                (user, event_ts, datetime.now(timezone.utc), channel, text, client_msg_id, event_id))
             self.conn.commit()
         finally:
             cur.close()
