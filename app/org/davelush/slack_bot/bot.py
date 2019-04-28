@@ -74,7 +74,7 @@ class Bot(object):
     def give_kudos(self, user, event_ts, channel, text, client_msg_id, event_id):
         logging.info(f"attempting to give someone kudos from {self}")
         if not self.user_kudos_repo.event_exists(event_id):
-            self.user_kudos_repo.create(user, event_ts, channel, text, client_msg_id)
+            self.user_kudos_repo.create(user, event_ts, channel, text, client_msg_id, event_id)
             kudos_count = self.user_kudos_repo.get_count(user)
             post_message = self.client.api_call("chat.postMessage",
                                                 channel=channel,
