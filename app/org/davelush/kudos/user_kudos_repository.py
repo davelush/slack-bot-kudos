@@ -20,7 +20,8 @@ class UserKudosRepository:
                         creation_ts,
                         channel,
                         text,
-                        client_msg_id
+                        client_msg_id,
+                        event_id
                     )
                     VALUES
                     (
