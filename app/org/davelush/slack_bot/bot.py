@@ -18,12 +18,6 @@ class Bot(object):
 
     def __init__(self, postgres_connection, client_id, client_secret, bot_token):
         super(Bot, self).__init__()
-
-        # bot identitiy
-        self.name = "gonzo"
-        self.emoji = ":peanut_butter_jelly_time:"
-
-        # Security & verification
         self.oauth = {"client_id": client_id,
                       "client_secret": client_secret,
                       "scope": "bot"}
@@ -31,6 +25,10 @@ class Bot(object):
         self.client = SlackClient(bot_token)
         self.messages = {}
 
+    #TODO Need to understand the lifetime of the bot_token that comes back from this oauth.access call. When
+    # I currently use a bot_token it is hard-coded via an environment variable. This method looks to persist
+    # a bot_token per authenticated team, facilitating a single service enabling bot installs for multiple
+    # Slack teams. Task is to understand and prove / disprove this and clean up approach
     def auth(self, code):
         auth_response = self.client.api_call(
             "oauth.access",
@@ -39,27 +37,8 @@ class Bot(object):
             code=code
         )
         team_id = auth_response["team_id"]
-        authed_teams[team_id] = {"bot_token":
-                                     auth_response["bot"]["bot_access_token"]}
+        authed_teams[team_id] = {"bot_token": auth_response["bot"]["bot_access_token"]}
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
-
-    def onboarding_message(self, team_id, user_id):
-        if self.messages.get(team_id):
-            self.messages[team_id].update({user_id: message.Message()})
-        else:
-            self.messages[team_id] = {user_id: message.Message()}
-        message_obj = self.messages[team_id][user_id]
-        message_obj.channel = self.open_dm(user_id)
-        message_obj.create_attachments()
-        post_message = self.client.api_call("chat.postMessage",
-                                            channel=message_obj.channel,
-                                            username=self.name,
-                                            icon_emoji=self.emoji,
-                                            text=message_obj.text,
-                                            attachments=message_obj.attachments
-                                            )
-        timestamp = post_message["ts"]
-        message_obj.timestamp = timestamp
 
     def give_kudos(self, user, event_ts, channel, text, client_msg_id, event_id):
         logging.info(f"attempting to give someone kudos from {self} with event_id = {event_id}")
