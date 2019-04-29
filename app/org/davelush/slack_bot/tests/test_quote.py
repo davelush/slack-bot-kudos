@@ -1,7 +1,9 @@
+from unittest import TestCase
+
 from org.davelush.slack_bot.quotegenerator import QuoteGenerator
 
 
-class TestQuote(object):
+class TestQuote(TestCase):
 
     def test_quote_not_none(self):
         quoteGen = QuoteGenerator()
