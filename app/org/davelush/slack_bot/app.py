@@ -20,6 +20,24 @@ def parse_cli_args(command_line, environment):
     parser = ArgumentParser()
 
     parser.add_argument(
+        "--client-id",
+        action="store_true",
+        default=environment.get("CLIENT_ID", "id"),
+        help="Client ID for bot authentication"
+    )
+    parser.add_argument(
+        "--client-secret",
+        action="store_true",
+        default=environment.get("CLIENT_SECRET", "secret"),
+        help="Client secret for bot authentication"
+    )
+    parser.add_argument(
+        "--bot-token",
+        action="store_true",
+        default=environment.get("BOT_TOKEN", "bot_token"),
+        help="Token for bot to authenticate back into Slack API"
+    )
+    parser.add_argument(
         "--postgres-host",
         action="store_true",
         default=environment.get("POSTGRES_HOST", "localhost"),
@@ -70,7 +88,7 @@ def setup():
         user=args.postgres_user,
         password=args.postgres_pass
     )
-    py_bot = bot.Bot(postgres_connection)
+    py_bot = bot.Bot(postgres_connection, args.client_id, args.client_secret, args.bot_token)
 
     app = Flask(__name__)
     CORS(app, resources={'/*': {'origins': '*'}})

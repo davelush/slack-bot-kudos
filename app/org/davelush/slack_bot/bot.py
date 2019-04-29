@@ -16,7 +16,7 @@ authed_teams = {}
 class Bot(object):
     """ Instantiates a Bot object to handle Slack onboarding interactions."""
 
-    def __init__(self, postgres_connection):
+    def __init__(self, postgres_connection, client_id, client_secret, bot_token):
         super(Bot, self).__init__()
 
         # bot identitiy
@@ -24,21 +24,11 @@ class Bot(object):
         self.emoji = ":peanut_butter_jelly_time:"
 
         # Security & verification
-        self.oauth = {"client_id": os.environ.get("CLIENT_ID"),
-                      "client_secret": os.environ.get("CLIENT_SECRET"),
+        self.oauth = {"client_id": client_id,
+                      "client_secret": client_secret,
                       "scope": "bot"}
-        self.verification = os.environ.get("VERIFICATION_TOKEN")
-
         self.user_kudos_repo = UserKudosRepository(postgres_connection)
-
-        # NOTE: Python-slack requires a client connection to generate
-        # an oauth token. We can connect to the client without authenticating
-        # by passing an empty string as a token and then reinstantiating the
-        # client with a valid OAuth token once we have one.
-        # FIXME this BOT_TOKEN is not the right way to do OAuth
-        self.bot_token = os.environ.get("BOT_TOKEN")
-        self.client = SlackClient(self.bot_token)
-
+        self.client = SlackClient(bot_token)
         self.messages = {}
 
     def auth(self, code):
