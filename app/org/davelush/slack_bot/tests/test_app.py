@@ -1,6 +1,7 @@
 import os
 import sys
 from unittest import TestCase
+from unittest.mock import patch
 
 from org.davelush.slack_bot.app import parse_cli_args, setup
 
@@ -29,7 +30,9 @@ class TestApp(TestCase):
         assert args.postgres_host == "some.random.host"
 
     def test_setup(self):
-        flask_app, flask_api = setup()
-        assert flask_app is not None
-        assert flask_api is not None
-        assert len(flask_api.endpoints) > 0
+        with patch("psycopg2.connect") as mock_psycopg2_connect:
+            mock_psycopg2_connect.return_value = None
+            flask_app, flask_api = setup()
+            assert flask_app is not None
+            assert flask_api is not None
+            assert len(flask_api.endpoints) > 0
