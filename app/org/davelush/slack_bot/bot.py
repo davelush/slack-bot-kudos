@@ -3,12 +3,8 @@ import logging
 import os
 
 from org.davelush.kudos.user_kudos_repository import UserKudosRepository
-from org.davelush.slack_bot import message
 from slackclient import SlackClient
 
-# To remember which teams have authorized your app and what tokens are
-# associated with each team, we can store this information in memory on
-# as a global object.
 # FIXME When your bot is out of development, it's best to save to a more persistent memory store.
 authed_teams = {}
 
@@ -22,6 +18,7 @@ class Bot(object):
                       "client_secret": client_secret,
                       "scope": "bot"}
         self.user_kudos_repo = UserKudosRepository(postgres_connection)
+        self.verification = os.environ.get("VERIFICATION_TOKEN") #TODO this is being used in the event_handler. Is it necessary?
         self.client = SlackClient(bot_token)
         self.messages = {}
 
