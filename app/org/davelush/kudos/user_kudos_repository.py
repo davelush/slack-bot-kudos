@@ -4,7 +4,6 @@ from datetime import datetime, timezone
 class UserKudosRepository:
 
     def __init__(self, postgres_connection):
-        super(UserKudosRepository, self).__init__()
         self.conn = postgres_connection
 
     def create(self, user, event_ts, channel, text, client_msg_id, event_id):

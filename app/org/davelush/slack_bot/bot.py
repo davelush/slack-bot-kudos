@@ -47,3 +47,6 @@ class Bot(object):
                                                 text=f"Whoop whoop. {user} now has {kudos_count} kudos!"
                                                 )
             logging.info(post_message)
+            return True
+        else:
+            return False
