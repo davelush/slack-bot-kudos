@@ -48,5 +48,4 @@ class Bot(object):
                                                 )
             logging.info(post_message)
             return True
-        else:
-            return False
+        return False
