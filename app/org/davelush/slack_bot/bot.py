@@ -12,14 +12,14 @@ authed_teams = {}
 class Bot(object):
     """ Instantiates a Bot object to handle Slack onboarding interactions."""
 
-    def __init__(self, postgres_connection, client_id, client_secret, bot_token):
+    def __init__(self, postgres_connection, client, client_id, client_secret):
         super(Bot, self).__init__()
         self.oauth = {"client_id": client_id,
                       "client_secret": client_secret,
                       "scope": "bot"}
         self.user_kudos_repo = UserKudosRepository(postgres_connection)
         self.verification = os.environ.get("VERIFICATION_TOKEN") #TODO this is being used in the event_handler. Is it necessary?
-        self.client = SlackClient(bot_token)
+        self.client = client
         self.messages = {}
 
     #TODO Need to understand the lifetime of the bot_token that comes back from this oauth.access call. When

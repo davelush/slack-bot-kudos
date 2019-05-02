@@ -9,6 +9,9 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
 import logging
+
+from slackclient import SlackClient
+
 from org.davelush.slack_bot import bot
 from org.davelush.slack_bot.logging_setup import setup_loggers, initialise_logging
 from org.davelush.slack_bot.slack_event_handler import SlackEventHandler
@@ -88,7 +91,8 @@ def setup():
         user=args.postgres_user,
         password=args.postgres_pass
     )
-    py_bot = bot.Bot(postgres_connection, args.client_id, args.client_secret, args.bot_token)
+    slack_client = SlackClient(args.bot_token)
+    py_bot = bot.Bot(postgres_connection, slack_client, args.client_id, args.client_secret)
 
     app = Flask(__name__)
     CORS(app, resources={'/*': {'origins': '*'}})
