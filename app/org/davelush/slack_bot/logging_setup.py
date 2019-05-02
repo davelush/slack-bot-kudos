@@ -10,7 +10,7 @@ class CustomJsonFormatter(jsonlogger.JsonFormatter):
         log_record['function'] = record.funcName
         log_record['level'] = record.levelname
 
-
+#TODO it's a shame this can't be completely blank rather than None
 def initialise_logging(log_level):
     logger = logging.getLogger()
     if log_level:
