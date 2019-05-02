@@ -1,5 +1,7 @@
 # Kudos Slack Bot
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/93f6b8a80e3b4460a2aa1e3afd3cb59e)](https://app.codacy.com/app/davelush/slack-bot-kudos?utm_source=github.com&utm_medium=referral&utm_content=davelush/slack-bot-kudos&utm_campaign=Badge_Grade_Dashboard)
+
 ![GitLab Pipeline](https://gitlab.com/davelush/slack-bot-kudos/badges/master/pipeline.svg)
 
 This is started as a sandbox for playing around with creating a Slack bot. As I've become more comfortable with the programming model it's morphing into a bot for both receiving and giving kudos (regular peer feedback) as a Slack user. I've used the [Slack Python Onboarding Tutorial](https://github.com/slackapi/Slack-Python-Onboarding-Tutorial/blob/master/README.md#pythonboarding-bot) which gives a good set of initial constructs along with guidance on setup.
