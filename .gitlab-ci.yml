@@ -2,7 +2,7 @@ services:
   - docker:dind
 
 pytest:
-  image: python:3.6-stretch
+  image: python:3.7-stretch
   stage: build
   script:
     - apt-get update && apt-get install libev-dev -y -q
@@ -13,7 +13,8 @@ pytest:
     - pipenv install --ignore-pipfile
     - pipenv install -d
     - pipenv run python setup.py install
-    - pipenv run python -m pytest
+    - pipenv run python -m pytest --cov=./
+    - pipenv run codecov
 
 build-app:
   image: docker:latest
