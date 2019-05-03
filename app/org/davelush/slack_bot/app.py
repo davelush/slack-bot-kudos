@@ -22,6 +22,7 @@ from org.davelush.slack_bot.slack_post_install_handler import SlackPostInstallHa
 def parse_cli_args(command_line, environment):
     parser = ArgumentParser()
 
+    parser.add_argument("--cov") # for interaction with pytest-cov
     parser.add_argument(
         "--client-id",
         action="store_true",
@@ -105,8 +106,8 @@ def setup():
 
 setup_loggers()
 initialise_logging(logging.INFO)
-flask_app, flask_api = setup()
 
 if __name__ == '__main__':
+    flask_app, flask_api = setup()
     logging.info("kudos bot start as a bjoern flask app")
     bjoern.run(flask_app, '0.0.0.0', 5000)
