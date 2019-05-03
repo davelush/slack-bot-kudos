@@ -13,10 +13,11 @@ flask = "*"
 flask_restful = "*"
 flask_cors = "*"
 slackclient = "*"
+websocket-client = "*"
 pyyaml = "*"
 psycopg2-binary = "*"
 bjoern = "*"
 python-json-logger = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
