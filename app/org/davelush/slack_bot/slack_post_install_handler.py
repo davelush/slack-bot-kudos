@@ -3,7 +3,6 @@ from flask_restful import Resource
 
 
 def thanks(py_bot):
-    # FIXME OAuth is not working smoothly
     """
     This route is called by Slack after the user installs our app. It will
     exchange the temporary authorization code Slack sends for an OAuth token
