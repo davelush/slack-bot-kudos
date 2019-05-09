@@ -17,6 +17,7 @@ from org.davelush.slack_bot.logging_setup import setup_loggers, initialise_loggi
 from org.davelush.slack_bot.slack_event_handler import SlackEventHandler
 from org.davelush.slack_bot.slack_install_handler import SlackInstallHandler
 from org.davelush.slack_bot.slack_post_install_handler import SlackPostInstallHandler
+from org.davelush.slack_bot.slack_slash_handler import SlackSlashHandler
 
 
 def parse_cli_args(command_line, environment):
@@ -101,6 +102,7 @@ def setup():
     api.add_resource(SlackEventHandler, '/listening', resource_class_kwargs={'py_bot': py_bot})
     api.add_resource(SlackPostInstallHandler, '/thanks', resource_class_kwargs={'py_bot': py_bot})
     api.add_resource(SlackInstallHandler, '/thanks', resource_class_kwargs={'py_bot': py_bot})
+    api.add_resource(SlackSlashHandler, '/slash')
     return app, api
 
 
