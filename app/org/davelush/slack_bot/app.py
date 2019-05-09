@@ -102,7 +102,7 @@ def setup():
     api.add_resource(SlackEventHandler, '/listening', resource_class_kwargs={'py_bot': py_bot})
     api.add_resource(SlackPostInstallHandler, '/thanks', resource_class_kwargs={'py_bot': py_bot})
     api.add_resource(SlackInstallHandler, '/thanks', resource_class_kwargs={'py_bot': py_bot})
-    api.add_resource(SlackSlashHandler, '/slash')
+    api.add_resource(SlackSlashHandler, '/slash', resource_class_kwargs={'py_bot': py_bot})
     return app, api
 
 

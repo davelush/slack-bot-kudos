@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timezone
 
 
@@ -73,5 +74,24 @@ class UserKudosRepository:
         cur = self.conn.cursor()
         try:
             print("")
+        finally:
+            cur.close()
+
+    def get_kudos_amounts(self):
+        resp_list = []
+        cur = self.conn.cursor()
+        try:
+            cur.execute(
+                """
+                SELECT user_id,
+                       count(*)
+                FROM kudosbot.user_kudos
+                GROUP BY user_id 
+                ORDER BY count(*) DESC
+                """,
+            )
+            for row in cur:
+                resp_list.append({"user_id": row[0], "kudos_count": row[1]})
+            return resp_list
         finally:
             cur.close()

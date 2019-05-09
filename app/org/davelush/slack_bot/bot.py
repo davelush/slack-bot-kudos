@@ -49,3 +49,15 @@ class Bot(object):
             logging.info(post_message)
             return True
         return False
+
+    def get_leaderboard(self):
+        user_kudos = self.user_kudos_repo.get_kudos_amounts()
+
+        logging.info("YES WE GOT HERE")
+        text = "*Kudos Leaderboard*\n"
+        i = 1
+        for user in user_kudos:
+            text += f"{i}. {user.get('user_id')} has {user.get('kudos_count')} kudos\n"
+            i = i+1
+        return {"text": text}
+
