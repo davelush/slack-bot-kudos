@@ -51,13 +51,22 @@ class Bot(object):
         return False
 
     def get_leaderboard(self):
-        user_kudos = self.user_kudos_repo.get_kudos_amounts()
-
-        logging.info("YES WE GOT HERE")
+        user_kudos = self.user_kudos_repo.get_kudos_amounts_for_month()
         text = "*Kudos Leaderboard*\n"
         i = 1
         for user in user_kudos:
             text += f"{i}. {user.get('user_id')} has {user.get('kudos_count')} kudos\n"
             i = i+1
-        return {"text": text}
+        return text
+
+    def get_stats(self, year, month):
+        user_kudos = self.user_kudos_repo.get_kudos_amounts_for_month(year, month)
+        text = f"No one gave each other any kudos in {year}/{month}"
+        if len(user_kudos) > 0:
+            text = f"*Kudos Recipients for {year}/{month}*\n"
+            i = 1
+            for user in user_kudos:
+                text += f"{i}. {user.get('user_id')} has {user.get('kudos_count')} kudos\n"
+                i = i+1
+        return text
 
