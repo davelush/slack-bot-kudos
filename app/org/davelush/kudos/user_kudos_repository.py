@@ -95,3 +95,26 @@ class UserKudosRepository:
             return resp_list
         finally:
             cur.close()
+
+    def get_kudos_amounts_for_month(self, year, month):
+        resp_list = []
+        cur = self.conn.cursor()
+        try:
+            cur.execute(
+                """
+                SELECT user_id,
+                       COUNT(*)
+                FROM kudosbot.user_kudos
+                WHERE date_part('year', creation_ts) = %s
+                AND date_part('month', creation_ts) = %s
+                GROUP BY user_id
+                ORDER BY count(*) DESC
+                """,
+                (year, month)
+            )
+            for row in cur:
+                resp_list.append({"user_id": row[0], "kudos_count": row[1]})
+            return resp_list
+        finally:
+            cur.close()
+
