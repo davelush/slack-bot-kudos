@@ -2,6 +2,7 @@
 import logging
 import os
 
+from org.davelush.kudos.sayings import Sayings
 from org.davelush.kudos.user_kudos_repository import UserKudosRepository
 from slackclient import SlackClient
 
@@ -42,9 +43,10 @@ class Bot(object):
         if not self.user_kudos_repo.event_exists(event_id):
             self.user_kudos_repo.create(user, event_ts, channel, text, client_msg_id, event_id)
             kudos_count = self.user_kudos_repo.get_count(user)
+
             post_message = self.client.api_call("chat.postMessage",
                                                 channel=channel,
-                                                text=f"Whoop whoop. {user} now has {kudos_count} kudos!"
+                                                text=Sayings.received_kudos_saying(user, kudos_count)
                                                 )
             logging.info(post_message)
             return True
