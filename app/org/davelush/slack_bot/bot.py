@@ -51,7 +51,7 @@ class Bot(object):
         return False
 
     def get_leaderboard(self):
-        user_kudos = self.user_kudos_repo.get_kudos_amounts_for_month()
+        user_kudos = self.user_kudos_repo.get_kudos_amounts()
         text = ":rocket: *Kudos Leaderboard* :rocket:\n"
         i = 1
         for user in user_kudos:
