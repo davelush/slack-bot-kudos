@@ -85,7 +85,7 @@ class UserKudosRepository:
                 SELECT user_id,
                        count(*)
                 FROM kudosbot.user_kudos
-                GROUP BY user_id 
+                GROUP BY user_id
                 ORDER BY count(*) DESC
                 """,
             )
