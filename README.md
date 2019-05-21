@@ -48,8 +48,8 @@ Not yet added. Base `Dockerfile` is available but untested
 
 ## Built With
 
--    [Flask](https://github.com/pallets/flask) - The Python micro framework for building web applications.
--    [Python SlackClient](https://github.com/slackapi/python-slackclient) - Slack Developer Kit for Python.
+  - [Flask](https://github.com/pallets/flask) - The Python micro framework for building web applications.
+  - [Python SlackClient](https://github.com/slackapi/python-slackclient) - Slack Developer Kit for Python.
 
 ## Versioning
 
