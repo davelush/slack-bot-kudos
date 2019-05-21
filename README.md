@@ -27,10 +27,10 @@ export BOT_TOKEN=<Temporary workaround. Bot-token from Slack>
 export VERIFICATION_TOKEN=???
 ```
 2.  Run ngrok
--    `ngrok http 8765`
+  - `ngrok http 8765`
 3.  Update the Request URL in the Event Subscriptions section of your [Slack App](https://api.slack.com/apps) configuration
--    `http://abcdef01.ngrok.io/listening` — Don't forget to add listening to the end of the url
--    `docker run --rm -it -p 8080:8080 $IMAGE_ID_FROM_ABOVE`
+  - `http://abcdef01.ngrok.io/listening` — Don't forget to add listening to the end of the url
+  - `docker run --rm -it -p 8080:8080 $IMAGE_ID_FROM_ABOVE`
 
 4.  Set an environment variable of `$BOT_TOKEN=abcdef01`. This is the Bot User OAuth Access Token from your Slack App configuration. This is a temporary workaround as I'm having trouble getting the OAuth flow working smoothly.
 5.  Run your application on 8765 locally
