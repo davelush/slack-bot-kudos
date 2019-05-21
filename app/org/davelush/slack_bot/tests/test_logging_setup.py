@@ -1,6 +1,6 @@
 import logging
 from unittest import TestCase
-from org.davelush.slack_bot.logging_setup import initialise_logging, setup_loggers
+from org.davelush.slack_bot.logging_setup import initialise_logging
 
 
 class TestLoggingSetup(TestCase):
