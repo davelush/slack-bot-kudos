@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import patch, Mock
+from unittest.mock import patch
 
 from org.davelush.slack_bot.slack_install_handler import SlackInstallHandler
 
