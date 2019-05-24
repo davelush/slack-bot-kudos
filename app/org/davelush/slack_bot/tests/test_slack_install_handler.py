@@ -12,4 +12,5 @@ class TestSlackInstallHandler(TestCase):
                 mock_slack_bot.oauth = {"client_id": "id", "scope": "scope"}
                 slack_install_handler = SlackInstallHandler(**{"py_bot": mock_slack_bot})
                 result = slack_install_handler.get()
+                
                 self.assertIsNotNone(result)
