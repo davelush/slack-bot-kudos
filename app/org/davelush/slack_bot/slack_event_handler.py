@@ -33,7 +33,7 @@ def event_handler(event_type, slack_event, py_bot):
                 for user in message_users[1]:
                     print(f"attempting to give kudos to user based on : {text}")
                     print(f"{event_type} : {slack_event}")
-                    py_bot.give_kudos(user, event_ts, channel_id, text, client_msg_id, event_id)
+                    py_bot.give_kudos(user, sending_user, event_ts, channel_id, text, client_msg_id, event_id)
 
         # synchronous acknowledgement response
         message = "Updated kudos and sent response message"

@@ -14,7 +14,7 @@ class TestBot(TestCase):
                 bot = Bot(mock_conn, mock_slack_client, "", "")
                 mock_conn.cursor.return_value.fetchone.return_value = [0]
                 mock_slack_client.api_call.return_value = "OK"
-                result = bot.give_kudos("user", 1, "channel", "text", "message_id", "event_id")
+                result = bot.give_kudos("user", "giver", 1, "channel", "text", "message_id", "event_id")
                 self.assertTrue(result)
 
     def test_already_has_kudos(self):
@@ -23,7 +23,7 @@ class TestBot(TestCase):
                 bot = Bot(mock_conn, mock_slack_client, "", "")
                 mock_conn.cursor.return_value.fetchone.return_value = [1]
                 mock_slack_client.api_call.return_value = "OK"
-                result = bot.give_kudos("user", 1, "channel", "text", "message_id", "event_id")
+                result = bot.give_kudos("user", "giver", 1, "channel", "text", "message_id", "event_id")
                 self.assertFalse(result)
 
     def test_get_leaderboard(self):
@@ -40,5 +40,5 @@ class TestBot(TestCase):
             with patch("psycopg2.connect") as mock_conn:
                 bot = Bot(mock_conn, mock_slack_client, "", "")
                 mock_conn.cursor.return_value.__iter__.return_value = monthly_query_result
-                result = bot.get_stats(2019, 5)
-                self.assertEquals(result, ':rocket: *Kudos Recipients for 2019/5* :rocket:\n1. some_id_3 has 5 kudos\n2. some_id_4 has 1 kudos\n')
+                result = bot.get_recipient_stats(2019, 5)
+                self.assertEquals(result, ':rocket: :rocket: *Biggest Kudos Receivers for 2019/5* :rocket: :rocket:\n1. some_id_3 has received 5 kudos\n2. some_id_4 has received 1 kudos\n')

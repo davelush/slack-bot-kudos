@@ -6,7 +6,7 @@ class UserKudosRepository:
     def __init__(self, postgres_connection):
         self.conn = postgres_connection
 
-    def create(self, user, event_ts, channel, text, client_msg_id, event_id):
+    def create(self, user, sending_user, event_ts, channel, text, client_msg_id, event_id):
         cur = self.conn.cursor()
         try:
             cur.execute(
@@ -15,6 +15,7 @@ class UserKudosRepository:
                     kudosbot.user_kudos
                     (
                         user_id,
+                        giver_user_id,
                         event_ts,
                         creation_ts,
                         channel,
@@ -30,10 +31,11 @@ class UserKudosRepository:
                         %s,
                         %s,
                         %s,
+                        %s,
                         %s
                     )
                 """,
-                (user, event_ts, datetime.now(timezone.utc), channel, text, client_msg_id, event_id))
+                (user, sending_user, event_ts, datetime.now(timezone.utc), channel, text, client_msg_id, event_id))
             self.conn.commit()
         finally:
             cur.close()
@@ -117,3 +119,45 @@ class UserKudosRepository:
         finally:
             cur.close()
 
+    def get_kudos_giver_amounts_for_month(self, year, month):
+        resp_list = []
+        cur = self.conn.cursor()
+        try:
+            cur.execute(
+                """
+                SELECT giver_user_id,
+                       COUNT(*)
+                FROM kudosbot.user_kudos
+                WHERE date_part('year', creation_ts) = %s
+                AND date_part('month', creation_ts) = %s
+                GROUP BY giver_user_id
+                ORDER BY count(*) DESC
+                """,
+                (year, month)
+            )
+            for row in cur:
+                resp_list.append({"user_id": row[0], "kudos_count": row[1]})
+            return resp_list
+        finally:
+            cur.close()
+
+    def get_kudos_messages_for_month(self, year, month):
+        resp_list = []
+        cur = self.conn.cursor()
+        try:
+            cur.execute(
+                """
+                SELECT user_id,
+                       giver_user_id,
+                       text
+                FROM kudosbot.user_kudos
+                WHERE date_part('year', creation_ts) = %s
+                AND date_part('month', creation_ts) = %s
+                """,
+                (year, month)
+            )
+            for row in cur:
+                resp_list.append({"user_id": row[0], "giver_user_id": row[1], "text": row[2]})
+            return resp_list
+        finally:
+            cur.close()
