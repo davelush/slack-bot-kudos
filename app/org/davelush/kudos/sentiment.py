@@ -33,7 +33,7 @@ class Sentiment(object):
 
     @staticmethod
     def get_positive_emojis(text):
-        p = re.compile("[:].*[:]")
+        p = re.compile("[:][0-9aA-zZ]{1,9}[:]")
         emojis = re.findall(p, text)
         positive_emojis = []
         for emoji in emojis:

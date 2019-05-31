@@ -36,3 +36,10 @@ class TestSentiment(TestCase):
         result_bool, result_list = self.sentiment.get_users(text)
         self.assertTrue(result_bool)
         self.assertEqual(["<@usernamea>", "<@usernameb>"], result_list, "match is not two usernames in order")
+
+    def test_emoji_with_link(self):
+        text = "Let's try a :star: and a link in the <https://github.com/davelush/slack-bot-kudos/projects/1#card-22215075> same message <@usernamea>"
+        result_bool, result_list = self.sentiment.get_positive_emojis(text)
+        self.assertTrue(result_bool)
+        self.assertEqual([":star:"], result_list, "match is not a list with a single emoji")
+
