@@ -14,30 +14,42 @@ class Sentiment(object):
     """
     Sentiment class finds emojis in a message and checks allows checking of whether an emoji is positive or not
     """
-
-    positive_emojis = [":star:",
-                       ":star2:",
-                       ":stars:",
-                       ":cookie:",
-                       ":chocfish:",
-                       ":chocfish2:"]
-
     def __init__(self):
         pass
 
-    def is_positive_emoji(self, emoji):
-        if emoji in self.positive_emojis:
+    @staticmethod
+    def is_positive_emoji(emoji):
+        positive_emojis = [":star:",
+                           ":star2:",
+                           ":stars:",
+                           ":cookie:",
+                           ":chocfish:",
+                           ":chocfish2:"]
+
+        if emoji in positive_emojis:
             return True
         else:
             return False
 
     @staticmethod
-    def contains_emoji(text):
+    def get_positive_emojis(text):
         p = re.compile("[:].*[:]")
-        return re.findall(p, text)
+        emojis = re.findall(p, text)
+        positive_emojis = []
+        for emoji in emojis:
+            if Sentiment.is_positive_emoji(emoji):
+                positive_emojis.append(emoji)
+        if len(positive_emojis) > 0:
+            return True, positive_emojis
+        else:
+            return False, positive_emojis
 
 
     @staticmethod
-    def contains_user(text):
-        p = re.compile("[<@].*[>]")
-        return re.findall(p, text)
+    def get_users(text):
+        p = re.compile("<@[0-9aA-zZ]{9}>")
+        result = re.findall(p, text)
+        if len(result) > 0:
+            return True, result
+        else:
+            return False, result

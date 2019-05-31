@@ -19,12 +19,20 @@ class TestSentiment(TestCase):
 
     def test_spot_emoji(self):
         text = "here is a string with an :emoji: in the middle"
-        result = self.sentiment.contains_emoji(text)
-        print(result)
-        self.assertEqual([":emoji:"], result, "match is not a list with a single emoji")
+        result_bool, result_list = self.sentiment.get_positive_emojis(text)
+        print(f"{result_bool} : {result_list}")
+        self.assertTrue(result_bool)
+        self.assertEqual([":emoji:"], result_list, "match is not a list with a single emoji")
 
     def test_spot_user(self):
-        text = "here is a string with a <@username> in the middle"
-        result = self.sentiment.contains_user(text)
-        print(result)
-        self.assertEqual(["<@username>"], result, "match is not a list with a single username")
+        text = "here is a string with a <@usernamea> in the middle"
+        result_bool, result_list = self.sentiment.get_users(text)
+        print(f"{result_bool} : {result_list}")
+        self.assertTrue(result_bool)
+        self.assertEqual(["<@usernamea>"], result_list, "match is not a list with a single username")
+
+    def test_spot_two_users(self):
+        text = "here is a string with a <@usernamea> and a second <@usernameb> in"
+        result_bool, result_list = self.sentiment.get_users(text)
+        self.assertTrue(result_bool)
+        self.assertEqual(["<@usernamea>", "<@usernameb>"], result_list, "match is not two usernames in order")
