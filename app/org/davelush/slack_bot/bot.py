@@ -57,7 +57,7 @@ class Bot(object):
         logging.info(f"blocking some self appointed kudos for {user}")
         post_message = self.client.api_call("chat.postMessage",
                                             channel=channel,
-                                            text=f"Loving the confidence there {user}. Dream on though :angry_trump:"
+                                            text=f"Loving the self confidence there {user} :angry_trump: Dream on though :angry_trump:"
                                             )
         logging.info(post_message)
         return True
