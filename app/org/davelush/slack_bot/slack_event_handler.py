@@ -18,7 +18,7 @@ def event_handler(event_type, slack_event, py_bot):
         event_ts = slack_event.get("event").get("ts")
         event_id = slack_event.get("event_id")
         client_msg_id = slack_event.get("event").get("client_msg_id")
-        sending_user = f"<@{slack_event.get('event').get('message').get('user')}>"
+        sending_user = f"<@{slack_event.get('event').get('message')}>"
 
         # get the emojis and users out of the message text
         sentiment = Sentiment()
