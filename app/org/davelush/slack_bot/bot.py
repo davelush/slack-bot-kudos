@@ -39,10 +39,10 @@ class Bot(object):
         authed_teams[team_id] = {"bot_token": auth_response["bot"]["bot_access_token"]}
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
 
-    def give_kudos(self, user, event_ts, channel, text, client_msg_id, event_id):
+    def give_kudos(self, user, sending_user, event_ts, channel, text, client_msg_id, event_id):
         logging.info(f"attempting to give someone kudos from {user} with event_id = {event_id}")
         if not self.user_kudos_repo.event_exists(event_id):
-            self.user_kudos_repo.create(user, event_ts, channel, text, client_msg_id, event_id)
+            self.user_kudos_repo.create(user, sending_user, event_ts, channel, text, client_msg_id, event_id)
             kudos_count = self.user_kudos_repo.get_count(user)
 
             post_message = self.client.api_call("chat.postMessage",
@@ -73,13 +73,33 @@ class Bot(object):
         return text
 
 
-    def get_stats(self, year, month):
+    def get_recipient_stats(self, year, month):
         user_kudos = self.user_kudos_repo.get_kudos_amounts_for_month(year, month)
         text = f"No one gave each other any kudos in {year}/{month}"
         if len(user_kudos) > 0:
-            text = f":rocket: *Kudos Recipients for {year}/{month}* :rocket:\n"
+            text = f":rocket: :rocket: *Biggest Kudos Receivers for {year}/{month}* :rocket: :rocket:\n"
             i = 1
             for user in user_kudos:
-                text += f"{i}. {user.get('user_id')} has {user.get('kudos_count')} kudos\n"
+                text += f"{i}. {user.get('user_id')} has received {user.get('kudos_count')} kudos\n"
                 i = i + 1
+        return text
+
+    def get_giver_stats(self, year, month):
+        user_kudos = self.user_kudos_repo.get_kudos_giver_amounts_for_month(year, month)
+        text = f"No one gave each other any kudos in {year}/{month}"
+        if len(user_kudos) > 0:
+            text = f":coin: :coin: *Biggest Kudos Givers for {year}/{month}* :coin: :coin:\n"
+            i = 1
+            for user in user_kudos:
+                text += f"{i}. {user.get('user_id')} has given {user.get('kudos_count')} kudos\n"
+                i = i + 1
+        return text
+
+    def get_messages(self, year, month):
+        user_kudos = self.user_kudos_repo.get_kudos_messages_for_month(year, month)
+        text = f"No one gave each other any kudos in {year}/{month}"
+        if len(user_kudos) > 0:
+            text = f":email: :love_letter: *Kudos messages from {year}/{month}* :love_letter: :email:\n"
+            for user in user_kudos:
+                text += f"{user.get('giver_user_id')} said _{user.get('text')}_\n"
         return text
