@@ -18,11 +18,11 @@ class TestSentiment(TestCase):
         self.assertFalse(result)
 
     def test_spot_emoji(self):
-        text = "here is a string with an :emoji: in the middle"
+        text = "here is a string with an :star: in the middle"
         result_bool, result_list = self.sentiment.get_positive_emojis(text)
         print(f"{result_bool} : {result_list}")
         self.assertTrue(result_bool)
-        self.assertEqual([":emoji:"], result_list, "match is not a list with a single emoji")
+        self.assertEqual([":star:"], result_list, "match is not a list with a single emoji")
 
     def test_spot_user(self):
         text = "here is a string with a <@usernamea> in the middle"
