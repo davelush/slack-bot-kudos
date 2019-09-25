@@ -42,4 +42,3 @@ class TestSentiment(TestCase):
         result_bool, result_list = self.sentiment.get_positive_emojis(text)
         self.assertTrue(result_bool)
         self.assertEqual([":star:"], result_list, "match is not a list with a single emoji")
-

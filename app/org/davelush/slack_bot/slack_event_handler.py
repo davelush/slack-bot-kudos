@@ -9,7 +9,7 @@ from org.davelush.kudos.sentiment import Sentiment
 
 def event_handler(event_type, slack_event, py_bot):
     # team_id = slack_event["team_id"]
-    logging.info(f"{event_type} and body [{slack_event}]")
+    logging.debug(f"{event_type} and body [{slack_event}]")
 
     if event_type == "message":
         # initialise some field based on the message content
