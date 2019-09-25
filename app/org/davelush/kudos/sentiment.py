@@ -2,6 +2,7 @@
 """
 Module for encapsulating the Sentiment class
 """
+import logging
 import re
 
 
@@ -33,16 +34,20 @@ class Sentiment(object):
 
     @staticmethod
     def get_positive_emojis(text):
-        p = re.compile("[:][0-9aA-zZ]{1,9}[:]")
-        emojis = re.findall(p, text)
-        positive_emojis = []
-        for emoji in emojis:
-            if Sentiment.is_positive_emoji(emoji):
-                positive_emojis.append(emoji)
-        if len(positive_emojis) > 0:
-            return True, positive_emojis
-        else:
-            return False, positive_emojis
+        try:
+            p = re.compile("[:][0-9aA-zZ]{1,9}[:]")
+            emojis = re.findall(p, text)
+        except:
+            logging.warning(f"had a problem with regex on text [{text}]")
+        finally:
+            positive_emojis = []
+            for emoji in emojis:
+                if Sentiment.is_positive_emoji(emoji):
+                    positive_emojis.append(emoji)
+            if len(positive_emojis) > 0:
+                return True, positive_emojis
+            else:
+                return False, positive_emojis
 
 
     @staticmethod
