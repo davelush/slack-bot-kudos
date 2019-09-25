@@ -13,7 +13,12 @@ def event_handler(event_type, slack_event, py_bot):
 
     if event_type == "message":
         # initialise some field based on the message content
-        text = slack_event.get("event").get("text")
+        message_text = slack_event.get("event").get("text")
+        if message_text is None:
+            logging.info("retrieved message_text from event -> message -> text")
+            message_text = slack_event.get("event").get("message").get("text")
+        else:
+            logging.info("retrieved message_text from event -> text")
         channel_id = slack_event.get("event").get("channel")
         event_ts = slack_event.get("event").get("ts")
         event_id = slack_event.get("event_id")
@@ -22,18 +27,18 @@ def event_handler(event_type, slack_event, py_bot):
 
         # get the emojis and users out of the message text
         sentiment = Sentiment()
-        message_emojis = sentiment.get_positive_emojis(text)
-        message_users = sentiment.get_users(text)
+        message_emojis = sentiment.get_positive_emojis(message_text)
+        message_users = sentiment.get_users(message_text)
 
         # give kudos to individuals
         if message_emojis[0] == True and message_users[0] == True:
             if sending_user in message_users[1]:
-                py_bot.block_self_kudos(sending_user, event_ts, channel_id, text, client_msg_id, event_id)
+                py_bot.block_self_kudos(sending_user, event_ts, channel_id, message_text, client_msg_id, event_id)
             else:
                 for user in message_users[1]:
-                    print(f"attempting to give kudos to user based on : {text}")
+                    print(f"attempting to give kudos to user based on : {message_text}")
                     print(f"{event_type} : {slack_event}")
-                    py_bot.give_kudos(user, sending_user, event_ts, channel_id, text, client_msg_id, event_id)
+                    py_bot.give_kudos(user, sending_user, event_ts, channel_id, message_text, client_msg_id, event_id)
 
         # synchronous acknowledgement response
         message = "Updated kudos and sent response message"
