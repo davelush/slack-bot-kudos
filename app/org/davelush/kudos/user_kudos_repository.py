@@ -37,6 +37,8 @@ class UserKudosRepository:
                 """,
                 (user, sending_user, event_ts, datetime.now(timezone.utc), channel, text, client_msg_id, event_id))
             self.conn.commit()
+        except Exception as ex:
+            logging.exception(ex)
         finally:
             cur.close()
 
@@ -70,6 +72,8 @@ class UserKudosRepository:
                 """,
                 (user_id,))
             return cur.fetchone()[0]
+        except Exception as ex:
+            logging.exception(ex)
         finally:
             cur.close()
 
@@ -96,6 +100,8 @@ class UserKudosRepository:
             for row in cur:
                 resp_list.append({"user_id": row[0], "kudos_count": row[1]})
             return resp_list
+        except Exception as ex:
+            logging.exception(ex)
         finally:
             cur.close()
 
@@ -118,6 +124,8 @@ class UserKudosRepository:
             for row in cur:
                 resp_list.append({"user_id": row[0], "kudos_count": row[1]})
             return resp_list
+        except Exception as ex:
+            logging.exception(ex)
         finally:
             cur.close()
 
@@ -140,6 +148,8 @@ class UserKudosRepository:
             for row in cur:
                 resp_list.append({"user_id": row[0], "kudos_count": row[1]})
             return resp_list
+        except Exception as ex:
+            logging.exception(ex)
         finally:
             cur.close()
 
@@ -161,5 +171,7 @@ class UserKudosRepository:
             for row in cur:
                 resp_list.append({"user_id": row[0], "giver_user_id": row[1], "text": row[2]})
             return resp_list
+        except Exception as ex:
+            logging.exception(ex)
         finally:
             cur.close()
