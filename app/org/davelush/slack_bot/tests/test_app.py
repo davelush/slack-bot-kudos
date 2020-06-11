@@ -27,7 +27,7 @@ class TestApp(TestCase):
     def test_config_env_vars(self):
         os.environ["POSTGRES_HOST"] = "some.random.host"
         args = parse_cli_args(sys.argv[1:], os.environ)
-        self.assertEquals(args.postgres_host, "some.random.host")
+        self.assertEqual(args.postgres_host, "some.random.host")
 
     def test_setup(self):
         with patch("psycopg2.connect") as mock_psycopg2_connect:

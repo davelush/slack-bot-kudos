@@ -32,7 +32,7 @@ class TestBot(TestCase):
                 bot = Bot(mock_conn, mock_slack_client, "", "")
                 mock_conn.cursor.return_value.__iter__.return_value = overall_query_result
                 result = bot.get_leaderboard()
-                self.assertEquals(result, ':rocket: *Kudos Leaderboard* :rocket:\n1. some_id_1 has 3 kudos\n2. some_id_2 has 2 kudos\n')
+                self.assertEqual(result, ':rocket: *Kudos Leaderboard* :rocket:\n1. some_id_1 has 3 kudos\n2. some_id_2 has 2 kudos\n')
 
 
     def test_get_stats(self):
@@ -41,4 +41,4 @@ class TestBot(TestCase):
                 bot = Bot(mock_conn, mock_slack_client, "", "")
                 mock_conn.cursor.return_value.__iter__.return_value = monthly_query_result
                 result = bot.get_recipient_stats(2019, 5)
-                self.assertEquals(result, ':rocket: :rocket: *Biggest Kudos Receivers for 2019/5* :rocket: :rocket:\n1. some_id_3 has received 5 kudos\n2. some_id_4 has received 1 kudos\n')
+                self.assertEqual(result, ':rocket: :rocket: *Biggest Kudos Receivers for 2019/5* :rocket: :rocket:\n1. some_id_3 has received 5 kudos\n2. some_id_4 has received 1 kudos\n')
