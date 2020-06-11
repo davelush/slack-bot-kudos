@@ -52,7 +52,7 @@ class Sentiment(object):
 
     @staticmethod
     def get_users(text):
-        p = re.compile("<@[0-9aA-zZ]{9}>")
+        p = re.compile("<@[0-9aA-zZ]*>")
         result = re.findall(p, text)
         if len(result) > 0:
             return True, result
