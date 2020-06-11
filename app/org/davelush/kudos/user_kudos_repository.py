@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-
+import logging
 
 class UserKudosRepository:
 
@@ -54,6 +54,8 @@ class UserKudosRepository:
                 return False
             else:
                 return True
+        except Exception as ex:
+            logging.exception(ex)
         finally:
             cur.close()
 
