@@ -2,17 +2,17 @@
 cd "$(dirname "$0")"
 echo "Running kudosbot schema migration steps"
 
-[ -z "$PG_HOSTNAME" ] && PG_HOSTNAME=pglocal
-[ -z "$PG_PORT" ] && PG_PORT=5432
-[ -z "$PG_DATABASE" ] && PG_DATABASE="metrics"
-[ -z "$PG_SCHEMA" ] && PG_SCHEMA="kudosbot"
-[ -z "$PG_OPTIONS" ] || PG_OPTIONS="&$PG_OPTIONS"
+[ -z "$POSTGRES_HOST" ] && POSTGRES_HOST=localhost
+[ -z "$POSTGRES_PORT" ] && POSTGRES_PORT=5432
+[ -z "$POSTGRES_DB" ] && POSTGRES_DB="metrics"
+[ -z "$POSTGRES_SCHEMA" ] && POSTGRES_SCHEMA="kudosbot"
+[ -z "$POSTGRES_OPTIONS" ] || POSTGRES_OPTIONS="&$POSTGRES_OPTIONS"
 
 echo "setting up database if it doesn't exist"
-./create-database.sh $PG_HOSTNAME $PG_DATABASE
+./create-database.sh $POSTGRES_HOST $POSTGRES_DB
 
-ver=$(migrate -database "postgresql://${PG_HOSTNAME}:${PG_PORT}/${PG_DATABASE}?x-migrations-table=${PG_SCHEMA}_schema_migrations${PG_OPTIONS}" -path /db-versions version)
+ver=$(migrate -database "postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?x-migrations-table=${POSTGRES_SCHEMA}_schema_migrations${POSTGRES_OPTIONS}" -path /db-versions version)
 echo "current version : $ver"
 
 echo "now applying all migration steps..."
-migrate -database "postgresql://${PG_HOSTNAME}:${PG_PORT}/${PG_DATABASE}?x-migrations-table=${PG_SCHEMA}_schema_migrations${PG_OPTIONS}" -path /db-versions up
+migrate -database "postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?x-migrations-table=${POSTGRES_SCHEMA}_schema_migrations${POSTGRES_OPTIONS}" -path /db-versions up
