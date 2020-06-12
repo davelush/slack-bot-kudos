@@ -24,8 +24,8 @@ class Sentiment(object):
                            ":star2:",
                            ":stars:",
                            ":cookie:",
-                           ":chocfish:",
-                           ":chocfish2:"]
+                           ":lime:",
+                           ":green_thumb:"]
 
         if emoji in positive_emojis:
             return True
