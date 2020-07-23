@@ -13,10 +13,13 @@ def event_handler(event_type, slack_event, py_bot):
 
     if event_type == "message":
         # initialise some field based on the message content
-        message_text = slack_event.get("event").get("text")
-        if message_text is None:
+        event = slack_event.get("event")
+        message_text = event.get("text")
+        if message_text is None and event.get("subtype") != "message_deleted":
+            message_text = event.get("message").get("text")
             logging.info("retrieved message_text from event -> message -> text")
-            message_text = slack_event.get("event").get("message").get("text")
+        elif event.get("subtype") == "message_deleted":
+            logging.info("ignoring a deleted message")
         else:
             logging.info("retrieved message_text from event -> text")
         channel_id = slack_event.get("event").get("channel")
