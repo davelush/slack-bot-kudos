@@ -14,6 +14,7 @@ from slackclient import SlackClient
 
 from org.davelush.slack_bot import bot
 from org.davelush.slack_bot.logging_setup import setup_loggers, initialise_logging
+from org.davelush.slack_bot.ping_handler import PingHandler
 from org.davelush.slack_bot.slack_event_handler import SlackEventHandler
 from org.davelush.slack_bot.slack_install_handler import SlackInstallHandler
 from org.davelush.slack_bot.slack_post_install_handler import SlackPostInstallHandler
@@ -103,6 +104,7 @@ def setup():
     api.add_resource(SlackPostInstallHandler, '/thanks', resource_class_kwargs={'py_bot': py_bot})
     api.add_resource(SlackInstallHandler, '/thanks', resource_class_kwargs={'py_bot': py_bot})
     api.add_resource(SlackSlashHandler, '/slash', resource_class_kwargs={'py_bot': py_bot})
+    api.add_resource(PingHandler, '/ping')
     return app, api
 
 
