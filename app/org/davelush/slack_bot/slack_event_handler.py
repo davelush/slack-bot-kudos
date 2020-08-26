@@ -29,9 +29,10 @@ def event_handler(event_type, slack_event, py_bot):
         sending_user = f"<@{slack_event.get('event').get('user')}>"
 
         # get the emojis and users out of the message text
-        sentiment = Sentiment()
-        message_emojis = sentiment.get_positive_emojis(message_text)
-        message_users = sentiment.get_users(message_text)
+        if message_text is not None:
+            sentiment = Sentiment()
+            message_emojis = sentiment.get_positive_emojis(message_text)
+            message_users = sentiment.get_users(message_text)
 
         # give kudos to individuals
         if message_emojis[0] == True and message_users[0] == True:
