@@ -1,0 +1,16 @@
+org: davelush
+app: slack-kudosbot
+service: slack-kudosbot
+
+provider:
+  name: aws
+  runtime: python3.8
+  profile: serverlessAdmin
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: /
+          method: get
